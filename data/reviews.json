@@ -1,0 +1,30 @@
+[
+  {
+    "name": "jj",
+    "rating": 1,
+    "message": "kl",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=jj",
+    "date": "2025-12-03T09:01:32.072Z"
+  },
+  {
+    "name": "saksham",
+    "rating": 5,
+    "message": "this is a demo rating\n",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=saksham",
+    "date": "2025-12-02T15:56:56.473Z"
+  },
+  {
+    "name": "saksham",
+    "rating": 4,
+    "message": "demo review\n",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=saksham",
+    "date": "2025-11-18T16:36:16.826Z"
+  },
+  {
+    "name": "saksham",
+    "rating": 4,
+    "message": "this is the review testing",
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=saksham",
+    "date": "2025-11-17T08:16:45.540Z"
+  }
+]

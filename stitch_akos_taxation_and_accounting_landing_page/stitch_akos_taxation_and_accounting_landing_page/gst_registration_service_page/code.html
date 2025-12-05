@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GST Registration - AKOS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5311ee",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#161122",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "1.5rem",
+                        "xl": "2rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col dark group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<div class="px-4 sm:px-8 md:px-20 lg:px-40 flex justify-center py-5">
+<div class="layout-content-container flex flex-col w-full max-w-7xl">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 dark:border-b-[#2e2348] px-6 sm:px-10 py-3">
+<div class="flex items-center gap-4 text-white">
+<div class="size-5 text-primary">
+<svg fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z"></path>
+<path clip-rule="evenodd" d="M10.4485 13.8519C10.4749 13.9271 10.6203 14.246 11.379 14.7361C12.298 15.3298 13.7492 15.9145 15.6717 16.3735C18.0007 16.9296 20.8712 17.2655 24 17.2655C27.1288 17.2655 29.9993 16.9296 32.3283 16.3735C34.2508 15.9145 35.702 15.3298 36.621 14.7361C37.3796 14.246 37.5251 13.9271 37.5515 13.8519C37.5287 13.7876 37.4333 13.5973 37.0635 13.2931C36.5266 12.8516 35.6288 12.3647 34.343 11.9175C31.79 11.0295 28.1333 10.4437 24 10.4437C19.8667 10.4437 16.2099 11.0295 13.657 11.9175C12.3712 12.3647 11.4734 12.8516 10.9365 13.2931C10.5667 13.5973 10.4713 13.7876 10.4485 13.8519ZM37.5563 18.7877C36.3176 19.3925 34.8502 19.8839 33.2571 20.2642C30.5836 20.9025 27.3973 21.2655 24 21.2655C20.6027 21.2655 17.4164 20.9025 14.7429 20.2642C13.1498 19.8839 11.6824 19.3925 10.4436 18.7877V34.1275C10.4515 34.1545 10.5427 34.4867 11.379 35.027C12.298 35.6207 13.7492 36.2054 15.6717 36.6644C18.0007 37.2205 20.8712 37.5564 24 37.5564C27.1288 37.5564 29.9993 37.2205 32.3283 36.6644C34.2508 36.2054 35.702 35.6207 36.621 35.027C37.4573 34.4867 37.5485 34.1546 37.5563 34.1275V18.7877ZM41.5563 13.8546V34.1455C41.5563 36.1078 40.158 37.5042 38.7915 38.3869C37.3498 39.3182 35.4192 40.0389 33.2571 40.5551C30.5836 41.1934 27.3973 41.5564 24 41.5564C20.6027 41.5564 17.4164 41.1934 14.7429 40.5551C12.5808 40.0389 10.6502 39.3182 9.20848 38.3869C7.84205 37.5042 6.44365 36.1078 6.44365 34.1455L6.44365 13.8546C6.44365 12.2684 7.37223 11.0454 8.39581 10.2036C9.43325 9.3505 10.8137 8.67141 12.343 8.13948C15.4203 7.06909 19.5418 6.44366 24 6.44366C28.4582 6.44366 32.5797 7.06909 35.657 8.13948C37.1863 8.67141 38.5667 9.3505 39.6042 10.2036C40.6278 11.0454 41.5563 12.2684 41.5563 13.8546Z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">AKOS</h2>
+</div>
+<div class="hidden lg:flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9">
+<a class="text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal" href="#">Registrations</a>
+<a class="text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal" href="#">Compliance</a>
+<a class="text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal" href="#">IPR</a>
+<a class="text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal" href="#">Taxation</a>
+<a class="text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal" href="#">CA Services</a>
+<a class="text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal" href="#">Environmental</a>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-primary hover:bg-opacity-90 transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Login / Sign Up</span>
+</button>
+</div>
+<button class="lg:hidden flex items-center justify-center p-2 rounded-full text-white bg-white/10">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+</div>
+</div>
+<main class="px-4 sm:px-8 md:px-20 lg:px-40 flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col w-full max-w-7xl">
+<div class="py-16 sm:py-24 text-center">
+<div class="flex flex-col gap-6 items-center">
+<div class="flex flex-col gap-2 text-center max-w-3xl">
+<h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em] sm:text-5xl lg:text-6xl">
+                                    Streamline Your Business with GST Registration
+                                </h1>
+<h2 class="text-[#a291ca] text-base font-normal leading-normal sm:text-lg">
+                                    Expert, hassle-free GST registration services to keep your business compliant and growing.
+                                </h2>
+</div>
+<a class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-6 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-opacity-90 transition-colors" href="#lead-form">
+<span class="truncate">Get Started Now</span>
+</a>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16 py-10">
+<div class="lg:col-span-2">
+<div class="mb-10">
+<div class="flex flex-wrap justify-between gap-3">
+<div class="flex flex-col gap-3">
+<p class="text-white text-3xl sm:text-4xl font-black leading-tight tracking-[-0.033em]">Everything You Need to Know About GST</p>
+<p class="text-[#a291ca] text-base font-normal leading-normal">Understand the essentials of GST registration and how AKOS can simplify the process for you.</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col">
+<div class="text-[#a291ca] text-sm font-normal leading-normal max-w-prose space-y-4 pb-6 border-b border-b-[#423267]">
+<h3 class="text-white text-lg font-medium leading-normal mb-4">Understanding GST Registration</h3>
+<p>
+                                        GST (Goods and Services Tax) Registration is a mandatory process for businesses engaged in the supply of goods or services that cross specific turnover thresholds. It applies to manufacturers, traders, service providers, e-commerce sellers, freelancers, and businesses operating online or across multiple states. GST was launched with the main objective of combining various central and state taxes into one single tax, simplifying a system that previously included multiple taxes like VAT, excise duty, and service tax.
+                                    </p>
+<p>
+                                        The registration process grants an entity a unique GSTIN (Goods and Services Tax Identification Number), which is required to conduct any taxable activity and serves as proof that the entity is authorized to collect GST on behalf of the government. In India, GST registration is essential for businesses to operate legally, as it allows them to collect tax, avail input tax credit, expand their business, and comply with regulations. GST works on a value-added system, where tax is charged at each step of the supply chain—from manufacturer to retailer.
+                                    </p>
+<p class="font-medium text-white/90 pt-2">GST registration in India varies based on the nature of the business and its turnover, including several types:</p>
+<ol class="space-y-3" style="list-style-type: decimal; padding-left: 1.25rem;">
+<li><strong>Normal Taxpayer Registration:</strong> For regular businesses whose annual turnover exceeds the prescribed threshold. It allows businesses to collect GST, claim Input Tax Credit (ITC), and maintain standard compliance.</li>
+<li><strong>Casual Taxable Person Registration:</strong> For businesses with temporary or seasonal operations. It requires advance tax payments based on estimated turnover, with a validity of 90 days, extendable by another 90 days.</li>
+<li><strong>Non-Resident Taxable Person Registration:</strong> For those supplying goods or services in India without a permanent business address.</li>
+<li><strong>Non-Resident Online Service Distributor:</strong> For businesses offering online services (e.g., streaming platforms, software subscriptions) from outside India to Indian customers.</li>
+<li><strong>Special Economic Zone (SEZ) Developer/Unit:</strong> For businesses operating in Special Economic Zones to promote international trade, including benefits like tax exemptions and rebates on exports.</li>
+<li><strong>Tax Deductor at Source (TDS)/Tax Collector at Source (TCS):</strong> Government bodies or notified entities responsible for deducting or collecting tax at the source must register for GST.</li>
+</ol>
+</div>
+<details class="flex flex-col border-b border-b-[#423267] py-2 group">
+<summary class="flex cursor-pointer items-center justify-between gap-6 py-4">
+<p class="text-white text-lg font-medium leading-normal">Benefits of GST Registration</p>
+<div class="text-white transform transition-transform group-open:rotate-180">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</summary>
+<ul class="text-[#a291ca] text-sm font-normal leading-normal pb-2 list-disc pl-5 space-y-2 max-w-prose">
+<li><strong>Legal Recognition:</strong> Your business is recognized as a legal supplier of goods or services.</li>
+<li><strong>Input Tax Credit:</strong> You can claim credit on taxes paid for inputs, reducing your overall tax liability.</li>
+<li><strong>Interstate Trade:</strong> Registering for GST allows you to conduct business across state lines without restrictions.</li>
+<li><strong>Improved Credibility:</strong> A valid GSTIN enhances the credibility and trust of your business among clients and partners.</li>
+</ul>
+</details>
+<details class="flex flex-col border-b border-b-[#423267] py-2 group">
+<summary class="flex cursor-pointer items-center justify-between gap-6 py-4">
+<p class="text-white text-lg font-medium leading-normal">Our Registration Process</p>
+<div class="text-white transform transition-transform group-open:rotate-180">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</summary>
+<ol class="text-[#a291ca] text-sm font-normal leading-normal pb-2 space-y-4 max-w-prose pl-5" style="list-style-type: decimal;">
+<li><strong>Consultation &amp; Document Submission:</strong> Our experts consult with you to understand your business and collect the required documents.</li>
+<li><strong>Application Filing:</strong> We carefully prepare and file your GST registration application (Form GST REG-01) with the government portal.</li>
+<li><strong>Follow-up &amp; Clarification:</strong> We handle any queries or clarifications requested by the tax department on your behalf.</li>
+<li><strong>Certificate Receipt:</strong> Once approved, we deliver your official GST Registration Certificate (Form GST REG-06).</li>
+</ol>
+</details>
+<details class="flex flex-col border-b border-y-[#423267] py-2 group">
+<summary class="flex cursor-pointer items-center justify-between gap-6 py-4">
+<p class="text-white text-lg font-medium leading-normal">Required Documents</p>
+<div class="text-white transform transition-transform group-open:rotate-180">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</summary>
+<p class="text-[#a291ca] text-sm font-normal leading-normal pb-2 max-w-prose">
+                                        Common documents include PAN card, Aadhaar card, proof of business registration, identity and address proof of promoters with photographs, address proof of the place of business, and bank account statements. The exact list varies by entity type (Sole Proprietor, Partnership, etc.).
+                                    </p>
+</details>
+</div>
+</div>
+<div class="lg:col-span-1" id="lead-form">
+<div class="sticky top-10">
+<div class="flex flex-col items-stretch justify-start rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.2)] bg-[#211934] p-6 sm:p-8">
+<div class="flex w-full grow flex-col items-stretch justify-center gap-1 mb-6">
+<p class="text-primary text-sm font-bold tracking-wider leading-normal">LEAD GENERATION FORM</p>
+<p class="text-white text-xl font-bold leading-tight tracking-[-0.015em]">Start Your GST Registration Today</p>
+<p class="text-[#a291ca] text-sm font-normal leading-normal">Fill in your details below and our experts will get in touch with you shortly.</p>
+</div>
+<form class="flex flex-col gap-4">
+<div>
+<label class="text-white text-sm font-medium mb-1 block" for="name">Full Name</label>
+<input class="w-full h-10 px-3 rounded-md bg-[#161122] border border-[#423267] text-white placeholder:text-gray-500 focus:ring-2 focus:ring-primary focus:border-primary transition" id="name" name="name" placeholder="John Doe" type="text"/>
+</div>
+<div>
+<label class="text-white text-sm font-medium mb-1 block" for="email">Email Address</label>
+<input class="w-full h-10 px-3 rounded-md bg-[#161122] border border-[#423267] text-white placeholder:text-gray-500 focus:ring-2 focus:ring-primary focus:border-primary transition" id="email" name="email" placeholder="you@example.com" type="email"/>
+</div>
+<div>
+<label class="text-white text-sm font-medium mb-1 block" for="service">Service</label>
+<input class="w-full h-10 px-3 rounded-md bg-[#161122] border border-[#423267] text-white/70 cursor-not-allowed" disabled="" id="service" name="service" type="text" value="GST Registration"/>
+</div>
+<div>
+<label class="text-white text-sm font-medium mb-1 block" for="documents">Upload Documents</label>
+<div class="flex items-center justify-center w-full">
+<label class="flex flex-col items-center justify-center w-full h-28 border-2 border-[#423267] border-dashed rounded-lg cursor-pointer bg-[#161122] hover:bg-[#1a1428] transition-colors" for="dropzone-file">
+<div class="flex flex-col items-center justify-center pt-5 pb-6">
+<span class="material-symbols-outlined text-[#a291ca]">cloud_upload</span>
+<p class="mb-2 text-sm text-[#a291ca]"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+<p class="text-xs text-gray-500">PDF, JPG, PNG (MAX. 5MB)</p>
+</div>
+<input class="hidden" id="dropzone-file" type="file"/>
+</label>
+</div>
+</div>
+<button class="w-full flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-5 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-opacity-90 transition-colors mt-4" type="submit">
+<span class="truncate">Submit &amp; Proceed</span>
+</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="px-4 sm:px-8 md:px-20 lg:px-40 flex justify-center py-10 mt-16 border-t border-solid border-white/10 dark:border-t-[#2e2348]">
+<div class="layout-content-container flex flex-col md:flex-row justify-between items-center w-full max-w-7xl gap-6">
+<p class="text-[#a291ca] text-sm">© 2024 AKOS. All rights reserved.</p>
+<div class="flex items-center gap-6">
+<a class="text-[#a291ca] hover:text-white text-sm transition-colors" href="#">Privacy Policy</a>
+<a class="text-[#a291ca] hover:text-white text-sm transition-colors" href="#">Terms of Service</a>
+</div>
+</div>
+</footer>
+</div>
+</div>
+</body></html>
