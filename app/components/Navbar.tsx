@@ -3,9 +3,11 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { ChevronDown, Menu, X } from 'lucide-react';
+import { SignInButton, SignUpButton, UserButton, useUser } from '@clerk/nextjs';
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { isSignedIn } = useUser();
 
   return (
     <header className="sticky top-0 z-50 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 backdrop-blur-md shadow-lg border-b border-blue-500/30">
@@ -53,26 +55,26 @@ export default function Navbar() {
             <DropdownMenu
               title="Compliance"
               items={[
-                { label: 'MSME Registration', href: '/compliance' },
-                { label: 'EPF Registration', href: '/compliance' },
-                { label: 'Shop & Establishment', href: '/compliance' },
-                { label: 'LLP Annual Compliance', href: '/compliance' },
-                { label: 'Private Ltd Annual Compliance', href: '/compliance' },
-                { label: 'Partnership Firm Compliance', href: '/compliance' },
-                { label: 'NGO Compliance', href: '/compliance' },
-                { label: 'Society Annual Compliance', href: '/compliance' },
-                { label: 'Trust Annual Compliance', href: '/compliance' },
-                { label: 'Nidhi Company Compliance', href: '/compliance' },
-                { label: 'Annual ROC Filing', href: '/compliance' },
-                { label: 'GST Filing', href: '/compliance' },
-                { label: 'TDS Filing', href: '/compliance' },
-                { label: 'Income Tax Return', href: '/compliance' },
-                { label: 'Bookkeeping Services', href: '/compliance' },
-                { label: 'Outsource Bookkeeping', href: '/compliance' },
-                { label: 'Appointment of Auditor', href: '/compliance' },
-                { label: 'Change of Auditor', href: '/compliance' },
-                { label: 'Form INC-20A', href: '/compliance' },
-                { label: 'DIR-3 KYC for Directors', href: '/compliance' },
+                { label: 'MSME Registration', href: '/compliance/msme' },
+                { label: 'EPF Registration', href: '/compliance/epf' },
+                { label: 'Shop & Establishment', href: '/compliance/shop-establishment' },
+                { label: 'LLP Annual Compliance', href: '/compliance/llp-annual' },
+                { label: 'Private Ltd Annual Compliance', href: '/compliance/pvt-ltd-annual' },
+                { label: 'Partnership Firm Compliance', href: '/compliance/partnership-annual' },
+                { label: 'NGO Compliance', href: '/compliance/ngo-compliance' },
+                { label: 'Society Annual Compliance', href: '/compliance/society-annual' },
+                { label: 'Trust Annual Compliance', href: '/compliance/trust-annual' },
+                { label: 'Nidhi Company Compliance', href: '/compliance/nidhi-company' },
+                { label: 'Annual ROC Filing', href: '/compliance/annual-roc' },
+                { label: 'GST Filing', href: '/compliance/gst-filing' },
+                { label: 'TDS Filing', href: '/compliance/tds-filing' },
+                { label: 'Income Tax Return', href: '/compliance/itr-filing' },
+                { label: 'Bookkeeping Services', href: '/compliance/bookkeeping-services' },
+                { label: 'Outsource Bookkeeping', href: '/compliance/outsourced-bookkeeping' },
+                { label: 'Appointment of Auditor', href: '/compliance/appointment-auditor' },
+                { label: 'Change of Auditor', href: '/compliance/change-auditor' },
+                { label: 'Form INC-20A', href: '/compliance/inc-20a' },
+                { label: 'DIR-3 KYC for Directors', href: '/compliance/dir-3-kyc' },
               ]}
             />
             <DropdownMenu
@@ -199,6 +201,34 @@ export default function Navbar() {
             >
               Contact Us
             </Link>
+            {isSignedIn ? (
+              <div className="flex items-center gap-2">
+                <UserButton 
+                  appearance={{
+                    elements: {
+                      avatarBox: "w-10 h-10",
+                      userButtonPopoverCard: "bg-slate-900 border border-blue-500/30",
+                      userButtonPopoverActionButton: "hover:bg-white/10",
+                      userButtonPopoverActionButtonText: "text-white",
+                      userButtonPopoverFooter: "hidden"
+                    }
+                  }}
+                />
+              </div>
+            ) : (
+              <>
+                <SignInButton mode="modal">
+                  <button className="text-sm font-semibold text-white hover:text-primary hover:bg-white/10 transition-all px-4 py-2.5 rounded-lg">
+                    Sign In
+                  </button>
+                </SignInButton>
+                <SignUpButton mode="modal">
+                  <button className="text-sm font-semibold bg-[#3d9cf5] hover:bg-[#2d7cc5] text-white transition-all px-6 py-2.5 rounded-lg">
+                    Sign Up
+                  </button>
+                </SignUpButton>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
