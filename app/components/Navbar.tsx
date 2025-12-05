@@ -30,24 +30,24 @@ export default function Navbar() {
               items={[
                 { label: 'Private Limited Company', href: '/registrations/company' },
                 { label: 'LLP Registration', href: '/registrations/llp' },
-                { label: 'OPC Registration', href: '/registrations/company' },
-                { label: 'Partnership Firm', href: '/registrations/company' },
-                { label: 'Sole Proprietorship', href: '/registrations/company' },
-                { label: 'Public Limited Company', href: '/registrations/company' },
-                { label: 'Section 8 Company (NGO)', href: '/registrations/company' },
-                { label: 'Producer Company', href: '/registrations/company' },
-                { label: 'Nidhi Company', href: '/registrations/company' },
+                { label: 'OPC Registration', href: '/registrations/opc' },
+                { label: 'Partnership Firm', href: '/registrations/partnership' },
+                { label: 'Sole Proprietorship', href: '/registrations/sole-proprietorship' },
+                { label: 'Public Limited Company', href: '/registrations/public-limited' },
+                { label: 'Section 8 Company (NGO)', href: '/registrations/section8' },
+                { label: 'Producer Company', href: '/registrations/producer' },
+                { label: 'Nidhi Company', href: '/registrations/nidhi' },
                 { label: 'GST Registration', href: '/registrations/gst' },
                 { label: 'Startup India Registration', href: '/registrations/startup-india' },
-                { label: 'MSME/Udyam Registration', href: '/registrations/startup-india' },
-                { label: 'Import Export Code (IEC)', href: '/registrations/company' },
-                { label: 'FSSAI License', href: '/registrations/company' },
-                { label: 'ISO Certification', href: '/registrations/company' },
-                { label: 'Drug License', href: '/registrations/company' },
-                { label: 'Digital Signature (DSC)', href: '/registrations/company' },
-                { label: 'Professional Tax Registration', href: '/registrations/company' },
-                { label: 'Shop Act License', href: '/registrations/company' },
-                { label: 'RERA Registration', href: '/registrations/company' },
+                { label: 'MSME/Udyam Registration', href: '/registrations/udyam' },
+                { label: 'Import Export Code (IEC)', href: '/registrations/iec' },
+                { label: 'FSSAI License', href: '/registrations/fssai' },
+                { label: 'ISO Certification', href: '/registrations/iso' },
+                { label: 'Drug License', href: '/registrations/drug-license' },
+                { label: 'Digital Signature (DSC)', href: '/registrations/digital-signature' },
+                { label: 'Professional Tax Registration', href: '/registrations/professional-tax' },
+                { label: 'Shop Act License', href: '/registrations/shop-act' },
+                { label: 'RERA Registration', href: '/registrations/rera' },
               ]}
             />
             <DropdownMenu
@@ -247,9 +247,9 @@ function DropdownMenu({ title, items }: { title: string; items: { label: string;
         <span>{title}</span>
         <ChevronDown size={16} className="transition-transform duration-300 group-hover:rotate-180" />
       </button>
-      <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-300">
+      <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto invisible group-hover:visible transition-all duration-200 z-50">
         <div className="w-[600px] bg-gradient-to-br from-slate-900 to-blue-900 rounded-xl shadow-2xl border border-blue-500/30 p-6 backdrop-blur-md">
-          <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-2 max-h-[70vh] overflow-y-auto">
             {items.map((item, index) => (
               <Link
                 key={index}

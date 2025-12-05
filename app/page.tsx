@@ -129,8 +129,8 @@ function HeroSection() {
 
 function StatsSection() {
   const stats = [
-    { icon: Users, value: '5000+', label: 'Happy Clients', color: 'text-blue-400' },
-    { icon: FileText, value: '15000+', label: 'Projects Completed', color: 'text-green-400' },
+    { icon: Users, value: '100+', label: 'Happy Clients', color: 'text-blue-400' },
+    { icon: FileText, value: '500+', label: 'Projects Completed', color: 'text-green-400' },
     { icon: Award, value: '98%', label: 'Success Rate', color: 'text-yellow-400' },
     { icon: Clock, value: '24/7', label: 'Support Available', color: 'text-purple-400' },
   ];
@@ -755,15 +755,10 @@ function ConsultationSection() {
               Take the first step towards financial clarity. Fill out the form, and one of our expert consultants will get back to you within 24 hours.
             </p>
             
-            <div className="grid grid-cols-2 gap-6 mt-4">
-              <div className="bg-gradient-to-br from-blue-500/20 to-primary/20 border border-blue-500/30 rounded-xl p-6 hover:scale-105 transition-transform">
-                <Award className="w-10 h-10 text-primary mb-3" />
-                <p className="text-3xl font-bold text-white">5000+</p>
-                <p className="text-sm text-gray-300 mt-1">Happy Clients</p>
-              </div>
+            <div className="grid grid-cols-1 gap-6 mt-4">
               <div className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 border border-green-500/30 rounded-xl p-6 hover:scale-105 transition-transform">
                 <FileText className="w-10 h-10 text-green-400 mb-3" />
-                <p className="text-3xl font-bold text-white">15000+</p>
+                <p className="text-3xl font-bold text-white">500+</p>
                 <p className="text-sm text-gray-300 mt-1">Projects Done</p>
               </div>
             </div>
