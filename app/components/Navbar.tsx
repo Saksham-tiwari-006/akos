@@ -1,11 +1,4 @@
 'use client';
-import {
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from '@clerk/nextjs'
 
 import Link from 'next/link';
 import { useState } from 'react';
@@ -206,17 +199,6 @@ export default function Navbar() {
             >
               Contact Us
             </Link>
-            <SignedOut>
-              <SignInButton />
-              <SignUpButton>
-                <button className="bg-[#6c47ff] text-ceramic-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer">
-                  Sign Up
-                </button>
-              </SignUpButton>
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
           </div>
 
           {/* Mobile Menu Button */}
@@ -251,19 +233,6 @@ export default function Navbar() {
             <Link href="/contact" className="block px-4 py-3 text-white font-semibold hover:bg-white/10 hover:text-primary rounded-lg transition-all">
               Contact Us
             </Link>
-            <div className="flex flex-col pt-4 space-y-2 border-t border-blue-500/30">
-              <SignedOut>
-              <SignInButton />
-              <SignUpButton>
-                <button className="bg-[#6c47ff] text-ceramic-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer">
-                  Sign Up
-                </button>
-              </SignUpButton>
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
-            </div>
           </div>
         </div>
       )}
