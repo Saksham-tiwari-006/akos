@@ -1,44 +1,60 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
+import { NextRequest } from 'next/server';
+import { connectDB } from '@/lib/db/mongodb';
+import { Contact } from '@/lib/models';
+import { contactSchema } from '@/lib/utils/validation';
+import { apiHandler, successResponse, validateRequest, getPaginationParams, paginatedResponse } from '@/lib/utils/api';
+import { sendContactAcknowledgment } from '@/lib/utils/email';
 
-export async function POST(request: NextRequest) {
-  try {
-    const body = await request.json();
-    const { name, email, phone, message, subject } = body;
+// GET - Fetch all contacts with pagination
+export const GET = apiHandler(async (request: NextRequest) => {
+  await connectDB();
 
-    if (!name || !email || !message) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
-    }
+  const { searchParams } = new URL(request.url);
+  const { page, limit, skip } = getPaginationParams(request);
 
-    const contact = {
-      name,
-      email,
-      phone,
-      message,
-      subject,
-      submittedAt: new Date().toISOString(),
-    };
+  // Build query filters
+  const query: any = {};
 
-    // Save to contacts.json
-    const filePath = path.join(process.cwd(), 'data', 'contacts.json');
-    
-    let contacts = [];
-    try {
-      const fileContents = await fs.readFile(filePath, 'utf8');
-      contacts = JSON.parse(fileContents);
-    } catch (error) {
-      // File doesn't exist yet
-    }
+  const status = searchParams.get('status');
+  if (status) query.status = status;
 
-    contacts.push(contact);
-    await fs.writeFile(filePath, JSON.stringify(contacts, null, 2));
+  // Fetch contacts
+  const [contacts, total] = await Promise.all([
+    Contact.find(query)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .populate('userId', 'name email')
+      .populate('repliedBy', 'name email')
+      .lean(),
+    Contact.countDocuments(query),
+  ]);
 
-    return NextResponse.json({ 
-      message: 'Contact form submitted successfully',
-      contact 
-    }, { status: 201 });
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to submit contact form' }, { status: 500 });
+  return successResponse(
+    paginatedResponse(contacts, total, page, limit),
+    'Contacts retrieved successfully'
+  );
+});
+
+// POST - Create new contact
+export const POST = apiHandler(async (request: NextRequest) => {
+  await connectDB();
+
+  const { data, error } = await validateRequest(request, contactSchema);
+  if (error) return error;
+
+  // Create contact
+  const contact = await Contact.create(data);
+
+  // Send acknowledgment email (non-blocking)
+  if (data && contact.email) {
+    sendContactAcknowledgment(contact.email, contact.name)
+      .catch(err => console.error('Email error:', err));
   }
-}
+
+  return successResponse(
+    contact,
+    'Contact form submitted successfully',
+    201
+  );
+});

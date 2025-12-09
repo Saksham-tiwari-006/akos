@@ -1,61 +1,70 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
+import { connectDB } from '@/lib/db/mongodb';
+import { Consultation } from '@/lib/models';
+import { consultationSchema } from '@/lib/utils/validation';
+import { apiHandler, successResponse, errorResponse, validateRequest, getPaginationParams, paginatedResponse } from '@/lib/utils/api';
+import { sendConsultationConfirmation } from '@/lib/utils/email';
 
-export async function POST(request: NextRequest) {
-  try {
-    const formData = await request.formData();
-    const service = formData.get('service');
-    const name = formData.get('name');
-    const email = formData.get('email');
-    const date = formData.get('date');
-    const time = formData.get('time');
-    const message = formData.get('message');
-    const file = formData.get('file') as File | null;
+// GET - Fetch all consultations with pagination and filters
+export const GET = apiHandler(async (request: NextRequest) => {
+  await connectDB();
 
-    if (!service || !name || !email) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
-    }
+  const { searchParams } = new URL(request.url);
+  const { page, limit, skip } = getPaginationParams(request);
 
-    const consultation = {
-      service,
-      name,
-      email,
-      date,
-      time,
-      message,
-      file: file ? file.name : null,
-      submittedAt: new Date().toISOString(),
-    };
+  // Build query filters
+  const query: any = {};
 
-    // Save to consultations.json
-    const filePath = path.join(process.cwd(), 'data', 'consultations.json');
-    
-    let consultations = [];
-    try {
-      const fileContents = await fs.readFile(filePath, 'utf8');
-      consultations = JSON.parse(fileContents);
-    } catch (error) {
-      // File doesn't exist yet, create it
-    }
+  const status = searchParams.get('status');
+  if (status) query.status = status;
 
-    consultations.push(consultation);
-    await fs.writeFile(filePath, JSON.stringify(consultations, null, 2));
+  const service = searchParams.get('service');
+  if (service) query.service = new RegExp(service, 'i');
 
-    // Handle file upload if present
-    if (file) {
-      const bytes = await file.arrayBuffer();
-      const buffer = Buffer.from(bytes);
-      const uploadPath = path.join(process.cwd(), 'public', 'uploads', file.name);
-      await fs.writeFile(uploadPath, buffer);
-    }
+  const email = searchParams.get('email');
+  if (email) query.email = email;
 
-    return NextResponse.json({ 
-      message: 'Consultation request submitted successfully',
-      consultation 
-    }, { status: 201 });
-  } catch (error) {
-    console.error('Consultation submission error:', error);
-    return NextResponse.json({ error: 'Failed to submit consultation request' }, { status: 500 });
+  // Fetch consultations
+  const [consultations, total] = await Promise.all([
+    Consultation.find(query)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .populate('userId', 'name email')
+      .populate('assignedTo', 'name email')
+      .lean(),
+    Consultation.countDocuments(query),
+  ]);
+
+  return successResponse(
+    paginatedResponse(consultations, total, page, limit),
+    'Consultations retrieved successfully'
+  );
+});
+
+// POST - Create new consultation
+export const POST = apiHandler(async (request: NextRequest) => {
+  await connectDB();
+
+  const { data, error } = await validateRequest(request, consultationSchema);
+  if (error) return error;
+
+  // Create consultation
+  const consultation = await Consultation.create(data);
+
+  // Send confirmation email (non-blocking)
+  if (data && consultation.email) {
+    sendConsultationConfirmation(consultation.email, {
+      name: consultation.name,
+      service: consultation.service,
+      date: consultation.date,
+      time: consultation.time,
+    }).catch(err => console.error('Email error:', err));
   }
-}
+
+  return successResponse(
+    consultation,
+    'Consultation request submitted successfully',
+    201
+  );
+});

@@ -4,7 +4,6 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { ClerkProvider } from '@clerk/nextjs';
 
-
 export const metadata: Metadata = {
   title: "AKOS - Taxation & Accounting Services",
   description: "Expert taxation, accounting, and business registration services in India",

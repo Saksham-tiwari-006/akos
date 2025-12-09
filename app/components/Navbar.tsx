@@ -2,11 +2,13 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { ChevronDown, Menu, X } from 'lucide-react';
+import { ChevronDown, Menu, X, User } from 'lucide-react';
 import { SignInButton, SignUpButton, UserButton, useUser } from '@clerk/nextjs';
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Always call useUser hook (required by React Hooks rules)
   const { isSignedIn } = useUser();
 
   return (
@@ -201,9 +203,17 @@ export default function Navbar() {
             >
               Contact Us
             </Link>
+
+            {/* Authentication - Clerk Integration */}
             {isSignedIn ? (
               <div className="flex items-center gap-2">
-                <UserButton 
+                <Link
+                  href="/dashboard"
+                  className="text-sm font-semibold bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white transition-all px-5 py-2.5 rounded-lg shadow-lg hover:shadow-xl"
+                >
+                  Dashboard
+                </Link>
+                <UserButton
                   appearance={{
                     elements: {
                       avatarBox: "w-10 h-10",
