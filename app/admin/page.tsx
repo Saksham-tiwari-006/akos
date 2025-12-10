@@ -412,8 +412,9 @@ export default function AdminDashboard() {
               {[
                 { id: 'dashboard', label: 'Overview', icon: LayoutDashboard },
                 { id: 'consultations', label: 'Consultations', icon: Briefcase, count: stats.pendingConsultations },
-                { id: 'contacts', label: 'Messages', icon: MessageSquare, count: stats.newContacts },
+                { id: 'contacts', label: 'Contacts', icon: MessageSquare, count: stats.newContacts },
                 { id: 'reviews', label: 'Reviews', icon: Star, count: stats.pendingReviews },
+                { id: 'messages', label: 'Messages', icon: Mail },
               ].map((tab) => {
                 const Icon = tab.icon;
                 return (
@@ -800,6 +801,28 @@ export default function AdminDashboard() {
                     </div>
                   ))
                 )}
+              </div>
+            )}
+
+            {/* Messages Tab */}
+            {activeTab === 'messages' && (
+              <div className="p-6">
+                <div className="text-center py-12">
+                  <Mail className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                    Message System
+                  </h3>
+                  <p className="text-gray-600 mb-6">
+                    View and manage all user messages in the dedicated messages section
+                  </p>
+                  <a
+                    href="/admin/messages"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    <Mail className="w-5 h-5" />
+                    Go to Messages
+                  </a>
+                </div>
               </div>
             )}
           </div>

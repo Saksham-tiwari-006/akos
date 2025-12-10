@@ -5,7 +5,7 @@ import { currentUser } from '@clerk/nextjs/server';
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectDB();
@@ -28,11 +28,12 @@ export async function PUT(
       );
     }
 
+    const { id } = await params;
     const body = await req.json();
     const { status, priority, notes } = body;
 
     const consultation = await Consultation.findByIdAndUpdate(
-      params.id,
+      id,
       {
         $set: {
           status,
@@ -67,7 +68,7 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectDB();
@@ -90,7 +91,8 @@ export async function DELETE(
       );
     }
 
-    const consultation = await Consultation.findByIdAndDelete(params.id);
+    const { id } = await params;
+    const consultation = await Consultation.findByIdAndDelete(id);
 
     if (!consultation) {
       return NextResponse.json(

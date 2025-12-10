@@ -148,3 +148,21 @@ export const analyticsSchema = z.object({
   sessionId: z.string().optional(),
   metadata: z.record(z.string(), z.any()).optional(),
 });
+
+// Message validation schemas
+export const messageSchema = z.object({
+  recipientId: z.string().min(1),
+  recipientType: z.enum(['admin', 'user']),
+  subject: z.string().max(200).optional(),
+  message: z.string().min(1).max(5000),
+  attachments: z.array(z.object({
+    name: z.string(),
+    url: z.string(),
+    type: z.string(),
+    size: z.number(),
+  })).optional(),
+});
+
+export const updateMessageSchema = z.object({
+  read: z.boolean().optional(),
+});

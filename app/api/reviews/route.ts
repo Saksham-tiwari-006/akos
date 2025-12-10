@@ -3,6 +3,7 @@ import { connectDB } from '@/lib/db/mongodb';
 import { Review } from '@/lib/models';
 import { reviewSchema } from '@/lib/utils/validation';
 import { apiHandler, successResponse, validateRequest, getPaginationParams, paginatedResponse } from '@/lib/utils/api';
+import { currentUser } from '@clerk/nextjs/server';
 
 // GET - Fetch all approved reviews with pagination
 export const GET = apiHandler(async (request: NextRequest) => {
@@ -44,10 +45,21 @@ export const POST = apiHandler(async (request: NextRequest) => {
   const { data, error } = await validateRequest(request, reviewSchema);
   if (error) return error;
 
-  // Generate avatar if not provided
+  // Get current user from Clerk if authenticated
+  const user = await currentUser();
+
+  // Generate avatar - use Clerk user image or generate one based on name
+  const avatar = user?.imageUrl || 
+                 `https://api.dicebear.com/7.x/avataaars/svg?seed=${data?.name}`;
+
+  // Use Clerk user data if available, otherwise use form data
   const reviewData = {
     ...data,
-    avatar: data?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${data?.name}`,
+    name: user?.firstName && user?.lastName 
+      ? `${user.firstName} ${user.lastName}` 
+      : data?.name,
+    email: user?.emailAddresses[0]?.emailAddress || data?.email,
+    avatar,
     status: 'pending', // Reviews need approval
   };
 

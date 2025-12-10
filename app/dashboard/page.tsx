@@ -100,6 +100,18 @@ export default function UserDashboard() {
   useEffect(() => {
     if (isLoaded && !user) {
       router.push('/login');
+      return;
+    }
+
+    // Redirect admin users to admin dashboard
+    if (isLoaded && user) {
+      const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'ronakkumarsingh23@lpu.in';
+      const userEmail = user.emailAddresses[0]?.emailAddress;
+      
+      if (userEmail === adminEmail) {
+        router.push('/admin');
+        return;
+      }
     }
   }, [isLoaded, user, router]);
 
@@ -246,9 +258,10 @@ export default function UserDashboard() {
               {[
                 { id: 'overview', label: 'Overview', icon: TrendingUp },
                 { id: 'consultations', label: 'Consultations', icon: Briefcase },
-                { id: 'contacts', label: 'Messages', icon: MessageSquare },
+                { id: 'contacts', label: 'Contacts', icon: MessageSquare },
                 { id: 'reviews', label: 'Reviews', icon: Star },
                 { id: 'inquiries', label: 'Inquiries', icon: FileText },
+                { id: 'messages', label: 'Messages', icon: Mail },
               ].map((tab) => {
                 const Icon = tab.icon;
                 return (
@@ -492,6 +505,28 @@ export default function UserDashboard() {
                     </div>
                   ))
                 )}
+              </div>
+            )}
+
+            {/* Messages Tab */}
+            {activeTab === 'messages' && (
+              <div className="p-6">
+                <div className="text-center py-12">
+                  <Mail className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                    Direct Messages
+                  </h3>
+                  <p className="text-gray-600 mb-6">
+                    Communicate directly with our support team
+                  </p>
+                  <a
+                    href="/dashboard/messages"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    <Mail className="w-5 h-5" />
+                    Go to Messages
+                  </a>
+                </div>
               </div>
             )}
           </div>

@@ -5,7 +5,7 @@ import { currentUser } from '@clerk/nextjs/server';
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectDB();
@@ -28,6 +28,7 @@ export async function PUT(
       );
     }
 
+    const { id } = await params;
     const body = await req.json();
     const { status, isVerified, response } = body;
 
@@ -41,7 +42,7 @@ export async function PUT(
     }
 
     const review = await Review.findByIdAndUpdate(
-      params.id,
+      id,
       { $set: updateData },
       { new: true, runValidators: true }
     );
@@ -69,7 +70,7 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectDB();
@@ -92,7 +93,8 @@ export async function DELETE(
       );
     }
 
-    const review = await Review.findByIdAndDelete(params.id);
+    const { id } = await params;
+    const review = await Review.findByIdAndDelete(id);
 
     if (!review) {
       return NextResponse.json(
