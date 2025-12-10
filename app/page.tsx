@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Shield, Users, DollarSign, FileText, Building, Award, TrendingUp, Clock, CheckCircle, Zap, Target, BarChart3, BookOpen, Briefcase, Scale, Rocket, Globe } from 'lucide-react';
 import StarRating from './components/StarRating';
@@ -539,32 +539,37 @@ function HowItWorks() {
 }
 
 function ReviewsSection() {
-  const [reviews, setReviews] = useState([
-    {
-      name: 'Rahul Sharma',
-      role: 'Startup Founder',
-      rating: 5,
-      message: 'AKOS transformed my tax filing experience. Professional, efficient, and they saved me a significant amount. The team guided me through every step of company registration. Highly recommended!',
-      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Rahul',
-    },
-    {
-      name: 'Priya Patel',
-      role: 'Business Owner',
-      rating: 5,
-      message: 'The consulting team is top-notch. They provided clear, actionable advice that helped my business grow. GST filing became so easy with their support!',
-      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Priya',
-    },
-    {
-      name: 'Amit Kumar',
-      role: 'E-commerce Entrepreneur',
-      rating: 4,
-      message: 'Excellent service for trademark registration. The team was responsive and kept me updated throughout the process. Very satisfied with their professionalism.',
-      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Amit',
-    },
-  ]);
-
+  const [reviews, setReviews] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({ name: '', rating: 0, message: '' });
   const [submitStatus, setSubmitStatus] = useState('');
+
+  useEffect(() => {
+    fetchReviews();
+  }, []);
+
+  const fetchReviews = async () => {
+    try {
+      const response = await fetch('/api/reviews?limit=100');
+      const result = await response.json();
+      
+      if (result.success && result.data) {
+        // Check if data has pagination structure
+        const reviewsData = result.data.data || result.data;
+        if (Array.isArray(reviewsData)) {
+          setReviews(reviewsData);
+        } else {
+          console.error('Reviews data is not an array:', result.data);
+          setReviews([]);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+      setReviews([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmitReview = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -581,12 +586,12 @@ function ReviewsSection() {
         body: JSON.stringify(formData),
       });
 
-      if (response.ok) {
-        const newReview = await response.json();
-        setReviews([newReview, ...reviews]);
+      const result = await response.json();
+
+      if (result.success) {
         setFormData({ name: '', rating: 0, message: '' });
-        setSubmitStatus('Review submitted successfully!');
-        setTimeout(() => setSubmitStatus(''), 3000);
+        setSubmitStatus('Review submitted successfully! It will be visible after approval.');
+        setTimeout(() => setSubmitStatus(''), 5000);
       } else {
         setSubmitStatus('Failed to submit review');
       }
@@ -612,33 +617,44 @@ function ReviewsSection() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-          {reviews.map((review, index) => (
-            <div
-              key={index}
-              className="bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-blue-500/30 hover:bg-white/10 hover:shadow-2xl hover:shadow-primary/30 transition-all hover:scale-105"
-            >
-              <div className="flex items-center gap-4 mb-6">
-                <img
-                  alt={review.name}
-                  className="w-16 h-16 rounded-full border-2 border-primary shadow-lg"
-                  src={review.avatar}
-                />
-                <div>
-                  <p className="font-bold text-white text-lg">{review.name}</p>
-                  <p className="text-sm text-gray-400">{review.role}</p>
-                  <StarRating rating={review.rating} readonly />
-                </div>
-              </div>
-              <p className="text-gray-300 leading-relaxed">{review.message}</p>
-              
-              <div className="mt-6 pt-6 border-t border-blue-500/30">
-                <div className="flex items-center gap-2 text-sm text-gray-400">
-                  <CheckCircle className="w-4 h-4 text-green-400" />
-                  <span>Verified Customer</span>
-                </div>
-              </div>
+          {loading ? (
+            <div className="col-span-3 text-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+              <p className="text-gray-300 mt-4">Loading reviews...</p>
             </div>
-          ))}
+          ) : reviews.length === 0 ? (
+            <div className="col-span-3 text-center py-12">
+              <p className="text-gray-300">No reviews yet. Be the first to share your experience!</p>
+            </div>
+          ) : (
+            reviews.map((review, index) => (
+              <div
+                key={review._id || index}
+                className="bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-blue-500/30 hover:bg-white/10 hover:shadow-2xl hover:shadow-primary/30 transition-all hover:scale-105"
+              >
+                <div className="flex items-center gap-4 mb-6">
+                  <img
+                    alt={review.name}
+                    className="w-16 h-16 rounded-full border-2 border-primary shadow-lg object-cover"
+                    src={review.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${review.name}`}
+                  />
+                  <div>
+                    <p className="font-bold text-white text-lg">{review.name}</p>
+                    {review.service && <p className="text-sm text-gray-400">{review.service}</p>}
+                    <StarRating rating={review.rating} readonly />
+                  </div>
+                </div>
+                <p className="text-gray-300 leading-relaxed">{review.message}</p>
+                
+                <div className="mt-6 pt-6 border-t border-blue-500/30">
+                  <div className="flex items-center gap-2 text-sm text-gray-400">
+                    <CheckCircle className="w-4 h-4 text-green-400" />
+                    <span>{review.isVerified ? 'Verified Customer' : 'Customer Review'}</span>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
         </div>
 
         <div className="max-w-2xl mx-auto bg-white/5 backdrop-blur-md shadow-2xl rounded-2xl border border-blue-500/30 p-8">

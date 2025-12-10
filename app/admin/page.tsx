@@ -14,6 +14,7 @@ import {
   CheckCircle,
   Clock,
   Mail,
+  Phone,
   Calendar,
   TrendingUp,
   Briefcase,
@@ -46,8 +47,9 @@ interface Contact {
   _id: string;
   name: string;
   email: string;
-  phone: string;
-  subject: string;
+  phone?: string;
+  service?: string;
+  subject?: string;
   message: string;
   status: 'new' | 'read' | 'replied' | 'archived';
   responseMessage?: string;
@@ -79,7 +81,7 @@ export default function AdminDashboard() {
   const { user, isLoaded } = useUser();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState('consultations');
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
 
@@ -410,11 +412,9 @@ export default function AdminDashboard() {
           <div className="border-b border-gray-200">
             <nav className="flex -mb-px overflow-x-auto">
               {[
-                { id: 'dashboard', label: 'Overview', icon: LayoutDashboard },
                 { id: 'consultations', label: 'Consultations', icon: Briefcase, count: stats.pendingConsultations },
                 { id: 'contacts', label: 'Contacts', icon: MessageSquare, count: stats.newContacts },
                 { id: 'reviews', label: 'Reviews', icon: Star, count: stats.pendingReviews },
-                { id: 'messages', label: 'Messages', icon: Mail },
               ].map((tab) => {
                 const Icon = tab.icon;
                 return (
@@ -440,87 +440,6 @@ export default function AdminDashboard() {
           </div>
 
           <div className="p-6">
-            {/* Dashboard Overview */}
-            {activeTab === 'dashboard' && (
-              <div className="space-y-6">
-                <h2 className="text-xl font-semibold text-gray-900">Recent Activity</h2>
-
-                {/* Pending Consultations */}
-                {consultations.filter(c => c.status === 'pending').length > 0 && (
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-3 flex items-center gap-2">
-                      <AlertCircle className="w-5 h-5 text-yellow-600" />
-                      Pending Consultations
-                    </h3>
-                    <div className="space-y-3">
-                      {consultations.filter(c => c.status === 'pending').slice(0, 3).map((consultation) => (
-                        <div
-                          key={consultation._id}
-                          className="flex items-center justify-between p-4 bg-yellow-50 border border-yellow-200 rounded-lg"
-                        >
-                          <div>
-                            <p className="font-medium text-gray-900">{consultation.name}</p>
-                            <p className="text-sm text-gray-600">{consultation.service}</p>
-                            <p className="text-xs text-gray-500">{formatDate(consultation.createdAt)}</p>
-                          </div>
-                          <button
-                            onClick={() => {
-                              setSelectedItem(consultation);
-                              setShowModal(true);
-                              setActiveTab('consultations');
-                            }}
-                            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm"
-                          >
-                            Review
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Pending Reviews */}
-                {reviews.filter(r => r.status === 'pending').length > 0 && (
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-3 flex items-center gap-2">
-                      <Star className="w-5 h-5 text-yellow-600" />
-                      Pending Reviews
-                    </h3>
-                    <div className="space-y-3">
-                      {reviews.filter(r => r.status === 'pending').slice(0, 3).map((review) => (
-                        <div
-                          key={review._id}
-                          className="flex items-center justify-between p-4 bg-yellow-50 border border-yellow-200 rounded-lg"
-                        >
-                          <div>
-                            <p className="font-medium text-gray-900">{review.name}</p>
-                            <div className="flex items-center gap-2 mt-1">
-                              <div className="flex">
-                                {[...Array(5)].map((_, i) => (
-                                  <Star
-                                    key={i}
-                                    className={`w-4 h-4 ${i < review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'
-                                      }`}
-                                  />
-                                ))}
-                              </div>
-                              <span className="text-sm text-gray-600">for {review.service}</span>
-                            </div>
-                          </div>
-                          <button
-                            onClick={() => updateReviewStatus(review._id, 'approved', true)}
-                            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm"
-                          >
-                            Approve
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-
             {/* Consultations Tab */}
             {activeTab === 'consultations' && (
               <div className="space-y-4">
@@ -661,12 +580,23 @@ export default function AdminDashboard() {
                       <div className="flex items-start justify-between mb-4">
                         <div>
                           <h3 className="text-lg font-semibold text-gray-900">{contact.name}</h3>
-                          <p className="text-blue-600 font-medium mt-1">{contact.subject}</p>
+                          {contact.service && (
+                            <p className="text-blue-600 font-medium mt-1">Service: {contact.service}</p>
+                          )}
+                          {contact.subject && (
+                            <p className="text-gray-700 mt-1">{contact.subject}</p>
+                          )}
                           <div className="flex items-center gap-4 mt-2 text-sm text-gray-600">
                             <span className="flex items-center gap-1">
                               <Mail className="w-4 h-4" />
                               {contact.email}
                             </span>
+                            {contact.phone && (
+                              <span className="flex items-center gap-1">
+                                <Phone className="w-4 h-4" />
+                                {contact.phone}
+                              </span>
+                            )}
                             <span className="flex items-center gap-1">
                               <Calendar className="w-4 h-4" />
                               {formatDate(contact.createdAt)}
@@ -801,28 +731,6 @@ export default function AdminDashboard() {
                     </div>
                   ))
                 )}
-              </div>
-            )}
-
-            {/* Messages Tab */}
-            {activeTab === 'messages' && (
-              <div className="p-6">
-                <div className="text-center py-12">
-                  <Mail className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                    Message System
-                  </h3>
-                  <p className="text-gray-600 mb-6">
-                    View and manage all user messages in the dedicated messages section
-                  </p>
-                  <a
-                    href="/admin/messages"
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                  >
-                    <Mail className="w-5 h-5" />
-                    Go to Messages
-                  </a>
-                </div>
               </div>
             )}
           </div>

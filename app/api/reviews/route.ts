@@ -32,8 +32,10 @@ export const GET = apiHandler(async (request: NextRequest) => {
     Review.countDocuments(query),
   ]);
 
+  const paginationData = paginatedResponse(reviews, total, page, limit);
+
   return successResponse(
-    paginatedResponse(reviews, total, page, limit),
+    paginationData,
     'Reviews retrieved successfully'
   );
 });

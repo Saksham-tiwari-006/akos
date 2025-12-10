@@ -8,12 +8,42 @@ export default function ContactPage() {
     name: '',
     email: '',
     phone: '',
+    service: '',
     serviceType: '',
+    customService: '',
     consultationTime: '',
+    subject: '',
     message: '',
   });
 
   const [submitStatus, setSubmitStatus] = useState('');
+
+  const serviceOptions = [
+    'Company Registration',
+    'GST Filing',
+    'Tax Filing',
+    'Trademark Registration',
+    'Business Consultation',
+    'Compliance Services',
+    'Legal Services',
+    'Other',
+  ];
+
+  const handleServiceChange = (value: string) => {
+    setFormData({ 
+      ...formData, 
+      serviceType: value,
+      service: value === 'Other' ? formData.customService : value
+    });
+  };
+
+  const handleCustomServiceChange = (value: string) => {
+    setFormData({ 
+      ...formData, 
+      customService: value,
+      service: value
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,21 +53,34 @@ export default function ContactPage() {
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          service: formData.service || formData.serviceType,
+          subject: formData.subject || `Inquiry about ${formData.service || formData.serviceType}`,
+          message: formData.message,
+        }),
       });
 
-      if (response.ok) {
+      const result = await response.json();
+
+      if (result.success) {
         setSubmitStatus('success');
         setFormData({
           name: '',
           email: '',
           phone: '',
+          service: '',
           serviceType: '',
+          customService: '',
           consultationTime: '',
+          subject: '',
           message: '',
         });
       } else {
         setSubmitStatus('error');
+        console.error('Error:', result.message);
       }
     } catch (error) {
       setSubmitStatus('error');
@@ -117,16 +160,38 @@ export default function ContactPage() {
 
                   <div>
                     <label className="block text-sm font-semibold text-gray-200 mb-2">
-                      Service Type
+                      Service Type *
                     </label>
-                    <input
-                      type="text"
+                    <select
+                      required
                       value={formData.serviceType}
-                      onChange={(e) => setFormData({ ...formData, serviceType: e.target.value })}
-                      className="w-full px-4 py-3 bg-slate-900/50 border border-blue-500/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
-                      placeholder="e.g., Company Registration, Tax Filing"
-                    />
+                      onChange={(e) => handleServiceChange(e.target.value)}
+                      className="w-full px-4 py-3 bg-slate-900/50 border border-blue-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                    >
+                      <option value="">Select a service</option>
+                      {serviceOptions.map((option, index) => (
+                        <option key={index} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
                   </div>
+
+                  {formData.serviceType === 'Other' && (
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-200 mb-2">
+                        Custom Service *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.customService}
+                        onChange={(e) => handleCustomServiceChange(e.target.value)}
+                        className="w-full px-4 py-3 bg-slate-900/50 border border-blue-500/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                        placeholder="Enter your specific service need"
+                      />
+                    </div>
+                  )}
 
                   <div>
                     <label className="block text-sm font-semibold text-gray-200 mb-2">

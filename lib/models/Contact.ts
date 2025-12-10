@@ -5,6 +5,7 @@ export interface IContact extends Document {
   name: string;
   email: string;
   phone?: string;
+  service?: string;
   subject?: string;
   message: string;
   status: 'new' | 'read' | 'replied' | 'archived';
@@ -34,6 +35,10 @@ const ContactSchema = new Schema<IContact>(
       match: [/^\S+@\S+\.\S+$/, 'Please provide a valid email'],
     },
     phone: {
+      type: String,
+      trim: true,
+    },
+    service: {
       type: String,
       trim: true,
     },

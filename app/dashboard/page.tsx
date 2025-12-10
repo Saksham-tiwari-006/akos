@@ -83,7 +83,7 @@ export default function UserDashboard() {
   const { user, isLoaded } = useUser();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState('consultations');
   const [consultations, setConsultations] = useState<Consultation[]>([]);
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -256,12 +256,10 @@ export default function UserDashboard() {
           <div className="border-b border-gray-200">
             <nav className="flex -mb-px overflow-x-auto">
               {[
-                { id: 'overview', label: 'Overview', icon: TrendingUp },
                 { id: 'consultations', label: 'Consultations', icon: Briefcase },
                 { id: 'contacts', label: 'Contacts', icon: MessageSquare },
                 { id: 'reviews', label: 'Reviews', icon: Star },
                 { id: 'inquiries', label: 'Inquiries', icon: FileText },
-                { id: 'messages', label: 'Messages', icon: Mail },
               ].map((tab) => {
                 const Icon = tab.icon;
                 return (
@@ -282,43 +280,6 @@ export default function UserDashboard() {
           </div>
 
           <div className="p-6">
-            {/* Overview Tab */}
-            {activeTab === 'overview' && (
-              <div className="space-y-6">
-                <h2 className="text-xl font-semibold text-gray-900">Recent Activity</h2>
-
-                {/* Recent Consultations */}
-                {consultations.length > 0 && (
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-3">Latest Consultations</h3>
-                    <div className="space-y-3">
-                      {consultations.slice(0, 3).map((consultation) => (
-                        <div
-                          key={consultation._id}
-                          className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
-                        >
-                          <div>
-                            <p className="font-medium text-gray-900">{consultation.service}</p>
-                            <p className="text-sm text-gray-600">{formatDate(consultation.createdAt)}</p>
-                          </div>
-                          {getStatusBadge(consultation.status)}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* No Activity */}
-                {consultations.length === 0 && contacts.length === 0 && reviews.length === 0 && (
-                  <div className="text-center py-12">
-                    <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">No Activity Yet</h3>
-                    <p className="text-gray-600">Start by submitting a consultation request or contacting us.</p>
-                  </div>
-                )}
-              </div>
-            )}
-
             {/* Consultations Tab */}
             {activeTab === 'consultations' && (
               <div className="space-y-4">
@@ -505,28 +466,6 @@ export default function UserDashboard() {
                     </div>
                   ))
                 )}
-              </div>
-            )}
-
-            {/* Messages Tab */}
-            {activeTab === 'messages' && (
-              <div className="p-6">
-                <div className="text-center py-12">
-                  <Mail className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                    Direct Messages
-                  </h3>
-                  <p className="text-gray-600 mb-6">
-                    Communicate directly with our support team
-                  </p>
-                  <a
-                    href="/dashboard/messages"
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                  >
-                    <Mail className="w-5 h-5" />
-                    Go to Messages
-                  </a>
-                </div>
               </div>
             )}
           </div>
