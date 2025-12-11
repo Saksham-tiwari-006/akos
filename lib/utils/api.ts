@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z, ZodSchema } from 'zod';
+import mongoose from 'mongoose';
 
 // Error response helper
 export function errorResponse(
@@ -31,6 +32,21 @@ export function successResponse(
     },
     { status }
   );
+}
+
+// Validate MongoDB ObjectId
+export function isValidObjectId(id: string): boolean {
+  return mongoose.Types.ObjectId.isValid(id);
+}
+
+// Escape special regex characters to prevent ReDoS
+export function escapeRegex(str: string): string {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// Safe regex search - escapes special characters
+export function safeRegexSearch(value: string): RegExp {
+  return new RegExp(escapeRegex(value), 'i');
 }
 
 // Validate request body with Zod schema

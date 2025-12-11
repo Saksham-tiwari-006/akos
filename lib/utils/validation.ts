@@ -14,16 +14,20 @@ export const loginSchema = z.object({
   password: z.string().min(6),
 });
 
+// Helper to handle null/undefined string values from FormData
+const optionalString = z.string().optional().nullable().transform(val => val || undefined);
+const optionalStringMin = (min: number) => z.string().min(min).optional().nullable().transform(val => val || undefined);
+
 // Consultation validation schemas
 export const consultationSchema = z.object({
   service: z.string().min(1),
-  serviceCategory: z.string().optional(),
+  serviceCategory: optionalString,
   name: z.string().min(2).max(100),
   email: z.string().email(),
-  phone: z.string().optional(),
-  date: z.string().optional(),
-  time: z.string().optional(),
-  message: z.string().max(1000).optional(),
+  phone: optionalString,
+  date: optionalString,
+  time: optionalString,
+  message: z.string().max(1000).optional().nullable().transform(val => val || undefined),
   documents: z.array(z.object({
     name: z.string(),
     url: z.string(),
@@ -43,9 +47,9 @@ export const updateConsultationSchema = z.object({
 export const contactSchema = z.object({
   name: z.string().min(2).max(100),
   email: z.string().email(),
-  phone: z.string().optional(),
-  service: z.string().optional(),
-  subject: z.string().max(200).optional(),
+  phone: optionalString,
+  service: optionalString,
+  subject: z.string().max(200).optional().nullable().transform(val => val || undefined),
   message: z.string().min(1).max(2000),
 });
 
@@ -57,10 +61,10 @@ export const updateContactSchema = z.object({
 // Review validation schemas
 export const reviewSchema = z.object({
   name: z.string().min(2).max(100),
-  email: z.string().email().optional(),
+  email: z.string().email().optional().nullable().transform(val => val || undefined),
   rating: z.number().min(1).max(5),
   message: z.string().min(1).max(1000),
-  service: z.string().optional(),
+  service: optionalString,
 });
 
 export const updateReviewSchema = z.object({
@@ -74,8 +78,8 @@ export const serviceInquirySchema = z.object({
   serviceCategory: z.string().min(1),
   name: z.string().min(2).max(100),
   email: z.string().email(),
-  phone: z.string().optional(),
-  message: z.string().max(2000).optional(),
+  phone: optionalString,
+  message: z.string().max(2000).optional().nullable().transform(val => val || undefined),
   documents: z.array(z.object({
     name: z.string(),
     url: z.string(),

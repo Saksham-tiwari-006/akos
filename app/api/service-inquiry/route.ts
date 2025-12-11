@@ -2,7 +2,7 @@ import { NextRequest } from 'next/server';
 import { connectDB } from '@/lib/db/mongodb';
 import { ServiceInquiry } from '@/lib/models';
 import { serviceInquirySchema } from '@/lib/utils/validation';
-import { apiHandler, successResponse, validateRequest, getPaginationParams, paginatedResponse, errorResponse } from '@/lib/utils/api';
+import { apiHandler, successResponse, getPaginationParams, paginatedResponse, errorResponse, checkRateLimit, getClientIp } from '@/lib/utils/api';
 import { sendServiceInquiryNotification } from '@/lib/utils/email';
 import { uploadToCloudinary } from '@/lib/utils/cloudinary';
 
@@ -45,20 +45,32 @@ export const GET = apiHandler(async (request: NextRequest) => {
 
 // POST - Create new service inquiry
 export const POST = apiHandler(async (request: NextRequest) => {
+  // Rate limiting - 10 submissions per 15 minutes per IP
+  const clientIp = getClientIp(request);
+  if (!checkRateLimit(`service-inquiry:${clientIp}`, 10, 15 * 60 * 1000)) {
+    return errorResponse('Too many requests. Please try again later.', 429);
+  }
+
   await connectDB();
 
   try {
     // Parse FormData
     const formData = await request.formData();
     
-    // Extract form fields
+    // Helper function to convert null/empty to undefined
+    const cleanValue = (val: FormDataEntryValue | null): string | undefined => {
+      if (val === null || val === '') return undefined;
+      return String(val);
+    };
+    
+    // Extract form fields, converting null to undefined
     const rawData = {
-      serviceName: formData.get('serviceName'),
-      serviceCategory: formData.get('serviceCategory'),
-      name: formData.get('name'),
-      email: formData.get('email'),
-      phone: formData.get('phone'),
-      message: formData.get('message'),
+      serviceName: cleanValue(formData.get('serviceName')),
+      serviceCategory: cleanValue(formData.get('serviceCategory')),
+      name: cleanValue(formData.get('name')),
+      email: cleanValue(formData.get('email')),
+      phone: cleanValue(formData.get('phone')),
+      message: cleanValue(formData.get('message')),
     };
 
     // Validate the data

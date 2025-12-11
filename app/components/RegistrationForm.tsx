@@ -19,23 +19,39 @@ export default function RegistrationForm({ title, description, serviceType }: Re
   });
   const [file, setFile] = useState<File | null>(null);
   const [submitStatus, setSubmitStatus] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('');
     
-    const dataToSubmit = {
-      ...formData,
-      serviceType,
-      fileName: file?.name || null,
-      submittedAt: new Date().toISOString(),
-    };
+    // Create FormData for file upload with Cloudinary
+    const formDataToSend = new FormData();
+    formDataToSend.append('service', serviceType);
+    formDataToSend.append('name', formData.fullName);
+    formDataToSend.append('email', formData.email);
+    formDataToSend.append('phone', formData.phone);
+    formDataToSend.append('message', formData.message || '');
+    
+    // Add company name to message if provided
+    if (formData.companyName) {
+      const messageWithCompany = `Company: ${formData.companyName}\n${formData.message || ''}`.trim();
+      formDataToSend.set('message', messageWithCompany);
+    }
+    
+    // Add file if uploaded
+    if (file) {
+      formDataToSend.append('file', file);
+    }
 
     try {
       const response = await fetch('/api/consultation', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(dataToSubmit),
+        body: formDataToSend,
       });
+
+      const result = await response.json();
 
       if (response.ok) {
         setSubmitStatus('Enquiry submitted successfully! We will contact you soon.');
@@ -43,10 +59,14 @@ export default function RegistrationForm({ title, description, serviceType }: Re
         setFile(null);
         setTimeout(() => setSubmitStatus(''), 5000);
       } else {
-        setSubmitStatus('Failed to submit enquiry. Please try again.');
+        setSubmitStatus(result.message || 'Failed to submit enquiry. Please try again.');
+        console.error('Submission error:', result);
       }
     } catch (error) {
       setSubmitStatus('Error submitting enquiry. Please try again.');
+      console.error('Error:', error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -130,10 +150,11 @@ export default function RegistrationForm({ title, description, serviceType }: Re
           <FileUpload onFileSelect={setFile} />
         </div>
         <button
-          className="w-full bg-primary text-white font-semibold py-3 px-4 rounded-lg shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-200"
+          className="w-full bg-primary text-white font-semibold py-3 px-4 rounded-lg shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
           type="submit"
+          disabled={isSubmitting}
         >
-          Submit Enquiry
+          {isSubmitting ? 'Submitting...' : 'Submit Enquiry'}
         </button>
         {submitStatus && (
           <p className={`text-sm ${submitStatus.includes('success') ? 'text-green-600' : 'text-red-600'}`}>

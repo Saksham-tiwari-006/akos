@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { apiHandler, successResponse, errorResponse } from '@/lib/utils/api';
+import { apiHandler, successResponse, errorResponse, checkRateLimit, getClientIp } from '@/lib/utils/api';
 import { uploadToCloudinary, isCloudinaryConfigured } from '@/lib/utils/cloudinary';
 
 // Allowed file types
@@ -35,6 +35,12 @@ function validateFile(file: File): { valid: boolean; error?: string } {
 
 // POST - Upload single or multiple files to Cloudinary
 export const POST = apiHandler(async (request: NextRequest) => {
+  // Rate limiting - 20 uploads per 15 minutes per IP
+  const clientIp = getClientIp(request);
+  if (!checkRateLimit(`upload:${clientIp}`, 20, 15 * 60 * 1000)) {
+    return errorResponse('Too many uploads. Please try again later.', 429);
+  }
+
   // Check if Cloudinary is configured
   if (!isCloudinaryConfigured()) {
     return errorResponse('File upload service is not configured', 500);

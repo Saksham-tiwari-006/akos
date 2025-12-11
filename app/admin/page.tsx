@@ -34,6 +34,8 @@ interface Consultation {
   name: string;
   email: string;
   phone: string;
+  date?: string;
+  time?: string;
   message: string;
   status: 'pending' | 'in-progress' | 'completed' | 'cancelled';
   priority: 'low' | 'medium' | 'high';
@@ -467,15 +469,33 @@ export default function AdminDashboard() {
                             <div>
                               <h3 className="text-lg font-semibold text-gray-900">{consultation.name}</h3>
                               <p className="text-blue-600 font-medium mt-1">{consultation.service}</p>
-                              <div className="flex items-center gap-4 mt-2 text-sm text-gray-600">
+                              <div className="flex flex-wrap items-center gap-4 mt-2 text-sm text-gray-600">
                                 <span className="flex items-center gap-1">
                                   <Mail className="w-4 h-4" />
                                   {consultation.email}
                                 </span>
+                                {consultation.phone && (
+                                  <span className="flex items-center gap-1">
+                                    <Phone className="w-4 h-4" />
+                                    {consultation.phone}
+                                  </span>
+                                )}
                                 <span className="flex items-center gap-1">
                                   <Calendar className="w-4 h-4" />
                                   {formatDate(consultation.createdAt)}
                                 </span>
+                                {consultation.date && (
+                                  <span className="flex items-center gap-1 bg-purple-50 px-2 py-1 rounded">
+                                    <Calendar className="w-4 h-4 text-purple-600" />
+                                    <span className="text-purple-700 font-medium">Preferred: {consultation.date}</span>
+                                  </span>
+                                )}
+                                {consultation.time && (
+                                  <span className="flex items-center gap-1 bg-purple-50 px-2 py-1 rounded">
+                                    <Clock className="w-4 h-4 text-purple-600" />
+                                    <span className="text-purple-700 font-medium">{consultation.time}</span>
+                                  </span>
+                                )}
                               </div>
                             </div>
                             <div className="flex flex-col items-end gap-2">

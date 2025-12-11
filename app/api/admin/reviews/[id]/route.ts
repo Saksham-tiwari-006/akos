@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectDB } from '@/lib/db/mongodb';
 import Review from '@/lib/models/Review';
 import { currentUser } from '@clerk/nextjs/server';
+import { isValidObjectId } from '@/lib/utils/api';
 
 export async function PUT(
   req: NextRequest,
@@ -18,7 +19,7 @@ export async function PUT(
       );
     }
 
-    const userEmail = user.emailAddresses[0]?.emailAddress;
+    const userEmail = user.emailAddresses?.[0]?.emailAddress;
     const adminEmail = process.env.ADMIN_EMAIL || 'admin@akos.com';
 
     if (userEmail !== adminEmail) {
@@ -29,6 +30,14 @@ export async function PUT(
     }
 
     const { id } = await params;
+
+    if (!isValidObjectId(id)) {
+      return NextResponse.json(
+        { success: false, message: 'Invalid ID format' },
+        { status: 400 }
+      );
+    }
+
     const body = await req.json();
     const { status, isVerified, response } = body;
 
@@ -83,7 +92,7 @@ export async function DELETE(
       );
     }
 
-    const userEmail = user.emailAddresses[0]?.emailAddress;
+    const userEmail = user.emailAddresses?.[0]?.emailAddress;
     const adminEmail = process.env.ADMIN_EMAIL || 'admin@akos.com';
 
     if (userEmail !== adminEmail) {
@@ -94,6 +103,14 @@ export async function DELETE(
     }
 
     const { id } = await params;
+
+    if (!isValidObjectId(id)) {
+      return NextResponse.json(
+        { success: false, message: 'Invalid ID format' },
+        { status: 400 }
+      );
+    }
+
     const review = await Review.findByIdAndDelete(id);
 
     if (!review) {

@@ -138,8 +138,7 @@ const ServiceSchema = new Schema<IService>(
   }
 );
 
-// Indexes
-ServiceSchema.index({ slug: 1 });
+// Indexes (slug and name already indexed via unique: true in schema)
 ServiceSchema.index({ category: 1, status: 1 });
 ServiceSchema.index({ status: 1, popular: 1, featured: 1 });
 ServiceSchema.index({ tags: 1 });

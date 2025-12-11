@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectDB } from '@/lib/db/mongodb';
 import { Consultation } from '@/lib/models';
 import { consultationSchema } from '@/lib/utils/validation';
-import { apiHandler, successResponse, errorResponse, validateRequest, getPaginationParams, paginatedResponse } from '@/lib/utils/api';
+import { apiHandler, successResponse, errorResponse, getPaginationParams, paginatedResponse, safeRegexSearch, checkRateLimit, getClientIp } from '@/lib/utils/api';
 import { sendConsultationConfirmation, sendEmail } from '@/lib/utils/email';
 import { uploadToCloudinary } from '@/lib/utils/cloudinary';
 
@@ -20,7 +20,7 @@ export const GET = apiHandler(async (request: NextRequest) => {
   if (status) query.status = status;
 
   const service = searchParams.get('service');
-  if (service) query.service = new RegExp(service, 'i');
+  if (service) query.service = safeRegexSearch(service);
 
   const email = searchParams.get('email');
   if (email) query.email = email;
@@ -45,6 +45,12 @@ export const GET = apiHandler(async (request: NextRequest) => {
 
 // POST - Create new consultation
 export const POST = apiHandler(async (request: NextRequest) => {
+  // Rate limiting - 10 submissions per 15 minutes per IP
+  const clientIp = getClientIp(request);
+  if (!checkRateLimit(`consultation:${clientIp}`, 10, 15 * 60 * 1000)) {
+    return errorResponse('Too many requests. Please try again later.', 429);
+  }
+
   await connectDB();
 
   try {
@@ -52,25 +58,31 @@ export const POST = apiHandler(async (request: NextRequest) => {
     
     let rawData: any;
     
+    // Helper function to convert null/empty to undefined
+    const cleanValue = (val: FormDataEntryValue | null): string | undefined => {
+      if (val === null || val === '') return undefined;
+      return String(val);
+    };
+    
     // Handle both FormData and JSON
     if (contentType.includes('multipart/form-data')) {
       const formData = await request.formData();
       
-      // Extract form fields
+      // Extract form fields, converting null to undefined
       rawData = {
-        service: formData.get('service'),
-        serviceCategory: formData.get('serviceCategory'),
-        name: formData.get('name'),
-        email: formData.get('email'),
-        phone: formData.get('phone'),
-        date: formData.get('date'),
-        time: formData.get('time'),
-        message: formData.get('message'),
+        service: cleanValue(formData.get('service')),
+        serviceCategory: cleanValue(formData.get('serviceCategory')),
+        name: cleanValue(formData.get('name')),
+        email: cleanValue(formData.get('email')),
+        phone: cleanValue(formData.get('phone')),
+        date: cleanValue(formData.get('date')),
+        time: cleanValue(formData.get('time')),
+        message: cleanValue(formData.get('message')),
       };
 
       // Handle file upload if present
       const file = formData.get('file');
-      if (file && file instanceof File) {
+      if (file && file instanceof File && file.size > 0) {
         try {
           // Convert File to Buffer
           const arrayBuffer = await file.arrayBuffer();

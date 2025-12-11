@@ -2,7 +2,7 @@ import { NextRequest } from 'next/server';
 import { connectDB } from '@/lib/db/mongodb';
 import { Contact } from '@/lib/models';
 import { contactSchema } from '@/lib/utils/validation';
-import { apiHandler, successResponse, validateRequest, getPaginationParams, paginatedResponse, errorResponse } from '@/lib/utils/api';
+import { apiHandler, successResponse, validateRequest, getPaginationParams, paginatedResponse, errorResponse, checkRateLimit, getClientIp } from '@/lib/utils/api';
 import { sendContactAcknowledgment, sendEmail, emailTemplates } from '@/lib/utils/email';
 
 // GET - Fetch all contacts with pagination
@@ -38,6 +38,12 @@ export const GET = apiHandler(async (request: NextRequest) => {
 
 // POST - Create new contact
 export const POST = apiHandler(async (request: NextRequest) => {
+  // Rate limiting - 5 submissions per 15 minutes per IP
+  const clientIp = getClientIp(request);
+  if (!checkRateLimit(`contact:${clientIp}`, 5, 15 * 60 * 1000)) {
+    return errorResponse('Too many requests. Please try again later.', 429);
+  }
+
   await connectDB();
 
   const { data, error } = await validateRequest(request, contactSchema);

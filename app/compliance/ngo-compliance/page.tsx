@@ -1,26 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Building2, Shield, CheckCircle, AlertTriangle, FileCheck, Users } from 'lucide-react';
+import GetStartedForm from '@/app/components/GetStartedForm';
 
 export default function NGOCompliancePage() {
-  const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    message: '',
-    file: null as File | null,
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Form submitted:', formData);
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFormData({ ...formData, file: e.target.files[0] });
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white">
@@ -247,70 +231,10 @@ export default function NGOCompliancePage() {
 
           {/* Sidebar Contact Form */}
           <div className="lg:col-span-1">
-            <div className="sticky top-8 bg-gradient-to-br from-blue-500/10 to-purple-500/10 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
-              <h3 className="text-2xl font-bold mb-6 text-center">Get Expert Assistance</h3>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium mb-2">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3d9cf5] text-white"
-                    placeholder="Enter your name"
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium mb-2">
-                    Phone Number
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3d9cf5] text-white"
-                    placeholder="Enter your phone"
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium mb-2">
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    rows={4}
-                    className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3d9cf5] text-white resize-none"
-                    placeholder="How can we help you?"
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="file" className="block text-sm font-medium mb-2">
-                    Attach Document (Optional)
-                  </label>
-                  <input
-                    type="file"
-                    id="file"
-                    onChange={handleFileChange}
-                    className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3d9cf5] text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#3d9cf5] file:text-white hover:file:bg-[#2d7cd5] file:cursor-pointer"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full bg-[#3d9cf5] hover:bg-[#2d7cd5] text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
-                >
-                  Submit Request
-                </button>
-              </form>
-            </div>
+            <GetStartedForm 
+              serviceName="NGO Compliance"
+              serviceCategory="Compliance"
+            />
           </div>
         </div>
       </div>

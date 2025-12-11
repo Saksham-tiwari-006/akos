@@ -1,30 +1,10 @@
 'use client'
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Building2, Users, FileText, CheckCircle, AlertTriangle, Calendar, Shield, Scale, Clock, RefreshCw } from 'lucide-react';
+import GetStartedForm from '@/app/components/GetStartedForm';
 
 export default function ChangeAuditorPage() {
-  const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    message: '',
-    file: null as File | null
-  });
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] || null;
-    setFormData(prev => ({ ...prev, file }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Form submitted:', formData);
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
@@ -419,92 +399,10 @@ export default function ChangeAuditorPage() {
 
           {/* Sidebar Form */}
           <div className="lg:col-span-1">
-            <div className="sticky top-8">
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
-                <h3 className="text-2xl font-bold text-white mb-6">Get Auditor Change Assistance</h3>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
-                      Full Name *
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      required
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Enter your full name"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-2">
-                      Phone Number *
-                    </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      required
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Enter your phone number"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
-                      Company Details & Change Requirements
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      rows={4}
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Tell us about your auditor change requirements..."
-                    ></textarea>
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="file" className="block text-sm font-medium text-gray-300 mb-2">
-                      Upload Documents (Optional)
-                    </label>
-                    <input
-                      type="file"
-                      id="file"
-                      name="file"
-                      onChange={handleFileChange}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-                    />
-                  </div>
-                  
-                  <button
-                    type="submit"
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl"
-                  >
-                    Get Expert Assistance
-                  </button>
-                </form>
-                
-                <div className="mt-8 pt-6 border-t border-white/10">
-                  <div className="flex items-center justify-center space-x-6 text-sm text-gray-400">
-                    <div className="flex items-center">
-                      <CheckCircle className="w-4 h-4 text-green-400 mr-2" />
-                      <span>Free Consultation</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Shield className="w-4 h-4 text-blue-400 mr-2" />
-                      <span>100% Compliant</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <GetStartedForm 
+              serviceName="Change of Auditor"
+              serviceCategory="Compliance"
+            />
           </div>
         </div>
       </div>

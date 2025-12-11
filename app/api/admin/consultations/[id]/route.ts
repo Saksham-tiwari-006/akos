@@ -3,6 +3,7 @@ import { connectDB } from '@/lib/db/mongodb';
 import Consultation from '@/lib/models/Consultation';
 import { currentUser } from '@clerk/nextjs/server';
 import { sendEmail } from '@/lib/utils/email';
+import { isValidObjectId } from '@/lib/utils/api';
 
 export async function PUT(
   req: NextRequest,
@@ -19,7 +20,7 @@ export async function PUT(
       );
     }
 
-    const userEmail = user.emailAddresses[0]?.emailAddress;
+    const userEmail = user.emailAddresses?.[0]?.emailAddress;
     const adminEmail = process.env.ADMIN_EMAIL || 'admin@akos.com';
 
     if (userEmail !== adminEmail) {
@@ -30,6 +31,15 @@ export async function PUT(
     }
 
     const { id } = await params;
+    
+    // Validate ObjectId format
+    if (!isValidObjectId(id)) {
+      return NextResponse.json(
+        { success: false, message: 'Invalid ID format' },
+        { status: 400 }
+      );
+    }
+
     const body = await req.json();
     const { status, priority, notes } = body;
 
@@ -159,7 +169,7 @@ export async function DELETE(
       );
     }
 
-    const userEmail = user.emailAddresses[0]?.emailAddress;
+    const userEmail = user.emailAddresses?.[0]?.emailAddress;
     const adminEmail = process.env.ADMIN_EMAIL || 'admin@akos.com';
 
     if (userEmail !== adminEmail) {
@@ -170,6 +180,15 @@ export async function DELETE(
     }
 
     const { id } = await params;
+    
+    // Validate ObjectId format
+    if (!isValidObjectId(id)) {
+      return NextResponse.json(
+        { success: false, message: 'Invalid ID format' },
+        { status: 400 }
+      );
+    }
+
     const consultation = await Consultation.findByIdAndDelete(id);
 
     if (!consultation) {

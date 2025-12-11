@@ -77,9 +77,7 @@ const UserSchema = new Schema<IUser>(
   }
 );
 
-// Indexes
-UserSchema.index({ email: 1 });
-UserSchema.index({ clerkId: 1 });
+// Indexes (email and clerkId already indexed via unique: true in schema)
 UserSchema.index({ role: 1, status: 1 });
 
 const User: Model<IUser> = mongoose.models.User || mongoose.model<IUser>('User', UserSchema);

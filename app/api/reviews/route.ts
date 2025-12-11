@@ -2,7 +2,7 @@ import { NextRequest } from 'next/server';
 import { connectDB } from '@/lib/db/mongodb';
 import { Review } from '@/lib/models';
 import { reviewSchema } from '@/lib/utils/validation';
-import { apiHandler, successResponse, validateRequest, getPaginationParams, paginatedResponse } from '@/lib/utils/api';
+import { apiHandler, successResponse, validateRequest, getPaginationParams, paginatedResponse, safeRegexSearch, checkRateLimit, getClientIp, errorResponse } from '@/lib/utils/api';
 import { currentUser } from '@clerk/nextjs/server';
 
 // GET - Fetch all approved reviews with pagination
@@ -19,7 +19,7 @@ export const GET = apiHandler(async (request: NextRequest) => {
   if (rating) query.rating = parseInt(rating);
 
   const service = searchParams.get('service');
-  if (service) query.service = new RegExp(service, 'i');
+  if (service) query.service = safeRegexSearch(service);
 
   // Fetch reviews
   const [reviews, total] = await Promise.all([
@@ -42,6 +42,12 @@ export const GET = apiHandler(async (request: NextRequest) => {
 
 // POST - Create new review
 export const POST = apiHandler(async (request: NextRequest) => {
+  // Rate limiting - 3 reviews per hour per IP
+  const clientIp = getClientIp(request);
+  if (!checkRateLimit(`review:${clientIp}`, 3, 60 * 60 * 1000)) {
+    return errorResponse('Too many reviews submitted. Please try again later.', 429);
+  }
+
   await connectDB();
 
   const { data, error } = await validateRequest(request, reviewSchema);
@@ -60,7 +66,7 @@ export const POST = apiHandler(async (request: NextRequest) => {
     name: user?.firstName && user?.lastName 
       ? `${user.firstName} ${user.lastName}` 
       : data?.name,
-    email: user?.emailAddresses[0]?.emailAddress || data?.email,
+    email: user?.emailAddresses?.[0]?.emailAddress || data?.email,
     avatar,
     status: 'pending', // Reviews need approval
   };
