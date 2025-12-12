@@ -53,44 +53,6 @@ export default function NICCode() {
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               <div>
-                <div className="bg-white/10 backdrop-blur-md rounded-xl border border-blue-500/30 p-8 mb-8">
-                  <h2 className="text-2xl font-bold text-white mb-6">Search NIC Code</h2>
-                  <form onSubmit={handleSearch} className="space-y-4">
-                    <div className="relative">
-                      <input
-                        type="text"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        placeholder="Enter business activity or NIC code..."
-                        className="w-full px-4 py-3 pl-12 bg-slate-900/50 border border-blue-500/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
-                      />
-                      <Search className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
-                    </div>
-                    <button
-                      type="submit"
-                      className="w-full px-6 py-3 bg-gradient-to-r from-primary to-blue-500 text-white font-bold rounded-lg hover:from-blue-500 hover:to-primary transition-all shadow-lg"
-                    >
-                      Search
-                    </button>
-                  </form>
-
-                  {searchResults.length > 0 && (
-                    <div className="mt-6 space-y-3">
-                      <h3 className="text-lg font-bold text-white mb-3">Search Results:</h3>
-                      {searchResults.map((result, index) => (
-                        <div key={index} className="bg-slate-900/50 p-4 rounded-lg border border-blue-500/20">
-                          <div className="flex items-start gap-3">
-                            <span className="px-3 py-1 bg-primary/20 text-primary rounded-full text-sm font-bold">
-                              {result.code}
-                            </span>
-                            <p className="text-gray-300 text-sm flex-1">{result.description}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
                 <div className="bg-white/10 backdrop-blur-md rounded-xl border border-blue-500/30 p-8">
                   <div className="flex items-center gap-3 mb-4">
                     <Info className="w-6 h-6 text-primary" />

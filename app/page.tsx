@@ -355,12 +355,12 @@ function PopularServices() {
       services: [
         { title: 'Trademark Registration', href: '/registrations/trademark' },
         { title: 'Trademark Renewal', href: '/ipr/trademark-renewal' },
-        { title: 'Copyright Registration', href: '/ipr/copyright' },
-        { title: 'Patent Registration', href: '/ipr/patent' },
-        { title: 'Design Registration', href: '/ipr/design' },
+        { title: 'Copyright Registration', href: '/ipr/copyright-registration' },
+        { title: 'Patent Registration', href: '/ipr/patent-registration' },
+        { title: 'Design Registration', href: '/ipr/design-registration' },
         { title: 'Trademark Opposition', href: '/ipr/trademark-opposition' },
         { title: 'International Trademark', href: '/ipr/international-trademark' },
-        { title: 'IP Dispute', href: '/ipr/ip-dispute' },
+        { title: 'IP Dispute', href: '/ipr/ip-dispute-resolution' },
       ],
     },
     {

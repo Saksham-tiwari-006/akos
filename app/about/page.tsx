@@ -292,13 +292,6 @@ export default function AboutPage() {
             >
               Contact Us
             </Link>
-            <a
-              href="tel:+918521139114"
-              className="px-8 py-4 border-2 border-primary/50 text-white text-lg font-bold rounded-lg hover:bg-primary/10 transition-all flex items-center justify-center gap-2"
-            >
-              <Phone className="w-5 h-5" />
-              Call Now
-            </a>
           </div>
         </div>
       </section>

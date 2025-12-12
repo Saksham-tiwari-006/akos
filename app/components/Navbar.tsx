@@ -83,21 +83,21 @@ export default function Navbar() {
             <DropdownMenu
               title="Company Changes"
               items={[
-                { label: 'Change Company Name', href: '/compliance' },
-                { label: 'Change Object Clause', href: '/compliance' },
-                { label: 'Change Registered Office', href: '/compliance' },
-                { label: 'Add Director', href: '/compliance' },
-                { label: 'Remove Director', href: '/compliance' },
-                { label: 'Add Designated Partner', href: '/compliance' },
-                { label: 'Change in LLP Agreement', href: '/compliance' },
-                { label: 'Increase Authorized Capital', href: '/compliance' },
-                { label: 'Issue of Shares', href: '/compliance' },
-                { label: 'Transfer of Shares', href: '/compliance' },
-                { label: 'Close Private Limited Company', href: '/compliance' },
-                { label: 'Winding Up of Company', href: '/compliance' },
-                { label: 'Strike off Section 8 Company', href: '/compliance' },
-                { label: 'Revival of Struck Off Company', href: '/compliance' },
-                { label: 'Convert Partnership to LLP', href: '/compliance' },
+                { label: 'Change Company Name', href: '/services/change-company-name' },
+                { label: 'Change Object Clause', href: '/services/change-object-clause' },
+                { label: 'Change Registered Office', href: '/services/change-registered-office' },
+                { label: 'Add Director', href: '/services/add-director' },
+                { label: 'Remove Director', href: '/services/remove-director' },
+                { label: 'Add Designated Partner', href: '/services/add-designated-partner' },
+                { label: 'Change in LLP Agreement', href: '/services/change-llp-agreement' },
+                { label: 'Increase Authorized Capital', href: '/services/increase-authorized-capital' },
+                { label: 'Issue of Shares', href: '/services/issue-of-shares' },
+                { label: 'Transfer of Shares', href: '/services/transfer-of-shares' },
+                { label: 'Close Private Limited Company', href: '/services/close-private-limited-company' },
+                { label: 'Winding Up of Company', href: '/services/winding-up-company' },
+                { label: 'Strike off Section 8 Company', href: '/services/strike-off-section-8' },
+                { label: 'Revival of Struck Off Company', href: '/services/revival-struck-off-company' },
+                { label: 'Convert Partnership to LLP', href: '/services/convert-partnership-to-llp' },
               ]}
             />
             <DropdownMenu
@@ -109,15 +109,15 @@ export default function Navbar() {
                 { label: 'Trademark Opposition', href: '/ipr/trademark-opposition' },
                 { label: 'International Trademark Registration', href: '/ipr/international-trademark' },
                 { label: 'Trademark Rectification', href: '/ipr/trademark-rectification' },
-                { label: 'Trademark Registration for E-commerce', href: '/ipr/trademark-ecommerce' },
+                { label: 'Trademark Registration for E-commerce', href: '/ipr/ecommerce-trademark' },
                 { label: 'Trademark Hearing', href: '/ipr/trademark-hearing' },
-                { label: 'Response to Trademark Objection', href: '/ipr/response-trademark-objection' },
+                { label: 'Response to Trademark Objection', href: '/ipr/response-to-objection' },
                 { label: 'Trademark Infringement', href: '/ipr/trademark-infringement' },
                 { label: 'Trademark Assignment', href: '/ipr/trademark-assignment' },
-                { label: 'Copyright Registration', href: '/ipr/copyright' },
-                { label: 'Patent Registration', href: '/ipr/patent' },
-                { label: 'Design Registration', href: '/ipr/design' },
-                { label: 'Intellectual Property Dispute', href: '/ipr/ip-dispute' },
+                { label: 'Copyright Registration', href: '/ipr/copyright-registration' },
+                { label: 'Patent Registration', href: '/ipr/patent-registration' },
+                { label: 'Design Registration', href: '/ipr/design-registration' },
+                { label: 'Intellectual Property Dispute', href: '/ipr/ip-dispute-resolution' },
               ]}
             />
             <DropdownMenu
