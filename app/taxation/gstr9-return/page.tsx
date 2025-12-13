@@ -79,7 +79,7 @@ export default function GSTR9Page() {
                     </div>
                     <div className="flex items-start space-x-3">
                       <CheckCircle className="w-5 h-5 text-green-400 mt-1 flex-shrink-0" />
-                      <span className="text-gray-300">Taxpayers with annual turnover > ₹2 crore</span>
+                      <span className="text-gray-300">Taxpayers with annual turnover &gt; ₹2 crore</span>
                     </div>
                     <div className="flex items-start space-x-3">
                       <CheckCircle className="w-5 h-5 text-green-400 mt-1 flex-shrink-0" />
@@ -375,7 +375,7 @@ export default function GSTR9Page() {
                 </div>
                 <div>
                   <span className="text-gray-400 text-sm">Applicability</span>
-                  <p className="text-white font-medium">Turnover > ₹2 Crore</p>
+                  <p className="text-white font-medium">Turnover &gt; ₹2 Crore</p>
                 </div>
                 <div>
                   <span className="text-gray-400 text-sm">Late Fee</span>

@@ -337,7 +337,7 @@ export default function ITR7Page() {
                 </div>
                 <div>
                   <span className="text-gray-400 text-sm">Audit Requirement</span>
-                  <p className="text-white font-medium">Mandatory if income > ₹25 Lakh</p>
+                  <p className="text-white font-medium">Mandatory if income &gt; ₹25 Lakh</p>
                 </div>
                 <div>
                   <span className="text-gray-400 text-sm">Key Focus</span>

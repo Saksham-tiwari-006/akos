@@ -88,7 +88,7 @@ export default function ConvertPartnershipToLLPPage() {
                       <li>• <strong>Legal Status:</strong> Separate entity vs Not separate</li>
                       <li>• <strong>Minimum Partners:</strong> 2 minimum (no maximum)</li>
                       <li>• <strong>Registration:</strong> Mandatory LLP registration</li>
-                      <li>• <strong>Audit:</strong> Required if contribution > ₹25L</li>
+                      <li>• <strong>Audit:</strong> Required if contribution &gt; ₹25L</li>
                       <li>• <strong>Compliance:</strong> Annual filings required</li>
                     </ul>
                   </div>
@@ -467,7 +467,7 @@ export default function ConvertPartnershipToLLPPage() {
                   <ul className="space-y-2 text-sm text-gray-300">
                     <li>• Annual filing of Form 8 & Form 11</li>
                     <li>• Statement of Account & Solvency</li>
-                    <li>• Audit if contribution > ₹25 lakhs</li>
+                    <li>• Audit if contribution &gt; ₹25 lakhs</li>
                     <li>• Income tax returns as LLP</li>
                     <li>• GST returns and compliance</li>
                     <li>• Designated partner changes (Form 4)</li>

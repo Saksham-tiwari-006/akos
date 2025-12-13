@@ -338,8 +338,8 @@ export default function TransferOfSharesPage() {
                   <h3 className="font-semibold text-lg mb-4 text-red-400">📊 For Transferor (Seller)</h3>
                   <ul className="space-y-2 text-sm text-gray-300">
                     <li>• <strong>Capital Gains Tax:</strong> On profit from sale</li>
-                    <li>• <strong>Short-term:</strong> Holding < 24 months (30% tax)</li>
-                    <li>• <strong>Long-term:</strong> Holding > 24 months (20% + indexation)</li>
+                    <li>• <strong>Short-term:</strong> Holding &lt; 24 months (30% tax)</li>
+                    <li>• <strong>Long-term:</strong> Holding &gt; 24 months (20% + indexation)</li>
                     <li>• <strong>Securities Transaction Tax:</strong> If applicable</li>
                     <li>• <strong>TDS:</strong> May be applicable on consideration</li>
                   </ul>
