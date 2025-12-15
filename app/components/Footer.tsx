@@ -89,13 +89,8 @@ export default function Footer() {
         
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-blue-500/30">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex justify-center items-center">
             <p className="text-sm text-gray-400">© 2025 AKOS Accounting And Tax Consultant. All rights reserved.</p>
-            <div className="flex items-center gap-6">
-              <Link href="/privacy-policy" className="text-sm text-gray-400 hover:text-primary transition-colors">Privacy Policy</Link>
-              <Link href="/terms" className="text-sm text-gray-400 hover:text-primary transition-colors">Terms of Service</Link>
-              <Link href="/refund-policy" className="text-sm text-gray-400 hover:text-primary transition-colors">Refund Policy</Link>
-            </div>
           </div>
         </div>
       </div>
