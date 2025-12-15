@@ -341,7 +341,7 @@ export default function PvtLtdAnnualCompliancePage() {
                   <h4 className="font-semibold mb-4">Contact Information</h4>
                   <div className="space-y-3 text-sm text-gray-300">
                     <p>📧 akos170620250626@gmail.com</p>
-                    <p>📞 +91 85211 39114</p>
+                    <p>📞 +91 92119 01927</p>
                     <p>📍 Shakarpur, New Delhi</p>
                   </div>
                 </div>

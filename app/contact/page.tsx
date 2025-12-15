@@ -263,7 +263,7 @@ export default function ContactPage() {
                       <Phone className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                       <div>
                         <h3 className="font-semibold text-white mb-1">Phone</h3>
-                        <p className="text-gray-300">+91 85211 39114</p>
+                        <p className="text-gray-300">+91 92119 01927</p>
                       </div>
                     </div>
 
@@ -297,7 +297,7 @@ export default function ContactPage() {
                     We typically respond to all inquiries within 24 hours during business days.
                   </p>
                   <p className="text-gray-300">
-                    For urgent matters, please call us directly at +91 85211 39114
+                    For urgent matters, please call us directly at +91 92119 01927
                   </p>
                 </div>
               </div>

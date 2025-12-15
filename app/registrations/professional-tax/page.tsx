@@ -179,7 +179,7 @@ export default function ProfessionalTaxPage() {
                   </div>
                   <div className="flex items-center gap-3 text-gray-300">
                     <Phone className="w-5 h-5 text-primary flex-shrink-0" />
-                    <a href="tel:+918521139114" className="hover:text-primary transition-colors text-sm">+91 85211 39114</a>
+                    <a href="tel:+919211901927" className="hover:text-primary transition-colors text-sm">+91 92119 01927</a>
                   </div>
                   <div className="flex items-center gap-3 text-gray-300">
                     <MapPin className="w-5 h-5 text-primary flex-shrink-0" />
