@@ -13,20 +13,16 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 backdrop-blur-md shadow-lg border-b border-blue-500/30">
-      <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+      <div className="max-w-[1920px] mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo - Left */}
-          <Link href="/" className="flex items-center gap-3 text-white hover:text-primary transition-colors flex-shrink-0 z-10">
-            <img src="/akos-logo.jpg" width={30} />
-            <h2 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-white to-blue-300 bg-clip-text text-transparent">AKOS</h2>
+          <Link href="/" className="flex items-center gap-2 sm:gap-3 text-white hover:text-primary transition-colors flex-shrink-0 z-10">
+            <img src="/akos-logo.jpg" width={24} className="sm:w-[30px]" />
+            <h2 className="text-xl sm:text-2xl font-bold tracking-tight bg-gradient-to-r from-white to-blue-300 bg-clip-text text-transparent">AKOS</h2>
           </Link>
 
           {/* Services - Center */}
-          <nav className="hidden lg:flex items-center gap-1 flex-1 justify-center mx-4"
-            style={{ maxWidth: 'calc(100% - 500px)' }}>
-            <Link href="/" className="text-sm font-semibold text-white hover:text-primary hover:bg-white/10 transition-all px-3 py-2.5 rounded-lg whitespace-nowrap">
-              Home
-            </Link>
+          <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1 flex-1 justify-center mx-2 xl:mx-4 overflow-hidden">
             <DropdownMenu
               title="Registrations"
               items={[
@@ -191,13 +187,13 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center gap-2 flex-shrink-0">
             <Link
               href="/about"
-              className="text-sm font-semibold text-white hover:text-primary hover:bg-white/10 transition-all px-3 py-2.5 rounded-lg whitespace-nowrap"
+              className="text-xs xl:text-sm font-semibold text-white hover:text-primary hover:bg-white/10 transition-all px-2 xl:px-3 py-2.5 rounded-lg whitespace-nowrap"
             >
               About Us
             </Link>
             <Link
               href="/contact"
-              className="text-sm font-semibold text-white hover:text-primary hover:bg-white/10 transition-all px-3 py-2.5 rounded-lg whitespace-nowrap"
+              className="text-xs xl:text-sm font-semibold text-white hover:text-primary hover:bg-white/10 transition-all px-2 xl:px-3 py-2.5 rounded-lg whitespace-nowrap"
             >
               Contact Us
             </Link>
@@ -226,12 +222,12 @@ export default function Navbar() {
             ) : (
               <>
                 <SignInButton mode="modal">
-                  <button className="text-sm font-semibold text-white hover:text-primary hover:bg-white/10 transition-all px-3 py-2.5 rounded-lg whitespace-nowrap">
+                  <button className="text-xs xl:text-sm font-semibold text-white hover:text-primary hover:bg-white/10 transition-all px-2 xl:px-3 py-2.5 rounded-lg whitespace-nowrap">
                     Sign In
                   </button>
                 </SignInButton>
                 <SignUpButton mode="modal">
-                  <button className="text-sm font-semibold bg-[#3d9cf5] hover:bg-[#2d7cc5] text-white transition-all px-4 py-2.5 rounded-lg whitespace-nowrap">
+                  <button className="text-xs xl:text-sm font-semibold bg-[#3d9cf5] hover:bg-[#2d7cc5] text-white transition-all px-3 xl:px-4 py-2.5 rounded-lg whitespace-nowrap">
                     Sign Up
                   </button>
                 </SignUpButton>
@@ -251,26 +247,52 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-gradient-to-b from-slate-900 to-blue-900 border-t border-blue-500/30 shadow-xl">
-          <div className="px-4 py-4 space-y-2">
-            <Link href="/" className="block px-4 py-3 text-white font-semibold hover:bg-white/10 hover:text-primary rounded-lg transition-all">
-              Home
-            </Link>
-            <Link href="/registrations/company" className="block px-4 py-3 text-white font-semibold hover:bg-white/10 hover:text-primary rounded-lg transition-all">
-              Company Registration
-            </Link>
-            <Link href="/registrations/llp" className="block px-4 py-3 text-white font-semibold hover:bg-white/10 hover:text-primary rounded-lg transition-all">
-              LLP Registration
-            </Link>
-            <Link href="/registrations/gst" className="block px-4 py-3 text-white font-semibold hover:bg-white/10 hover:text-primary rounded-lg transition-all">
-              GST Registration
-            </Link>
-            <Link href="/about" className="block px-4 py-3 text-white font-semibold hover:bg-white/10 hover:text-primary rounded-lg transition-all">
+        <div className="lg:hidden bg-gradient-to-b from-slate-900 to-blue-900 border-t border-blue-500/30 shadow-xl max-h-[80vh] overflow-y-auto">
+          <div className="px-2 py-4 space-y-1">
+            <MobileDropdownSection title="Registrations" items={[
+              { label: 'Private Limited Company', href: '/registrations/company' },
+              { label: 'LLP Registration', href: '/registrations/llp' },
+              { label: 'GST Registration', href: '/registrations/gst' },
+              { label: 'Startup India', href: '/registrations/startup-india' },
+            ]} />
+            <MobileDropdownSection title="Taxation" items={[
+              { label: 'GST Return Filing', href: '/taxation/gst-return-filing' },
+              { label: 'Income Tax Return', href: '/taxation/income-tax-return' },
+              { label: 'TDS Return', href: '/taxation/tds-return' },
+              { label: 'Tax Planning', href: '/taxation/tax-planning' },
+            ]} />
+            <MobileDropdownSection title="IPR Services" items={[
+              { label: 'Trademark Registration', href: '/ipr/trademark-registration' },
+              { label: 'Copyright Registration', href: '/ipr/copyright-registration' },
+              { label: 'Patent Registration', href: '/ipr/patent-registration' },
+            ]} />
+            <Link href="/about" className="block px-3 py-2.5 text-sm text-white font-medium hover:bg-white/10 hover:text-primary rounded-lg transition-all">
               About Us
             </Link>
-            <Link href="/contact" className="block px-4 py-3 text-white font-semibold hover:bg-white/10 hover:text-primary rounded-lg transition-all">
+            <Link href="/contact" className="block px-3 py-2.5 text-sm text-white font-medium hover:bg-white/10 hover:text-primary rounded-lg transition-all">
               Contact Us
             </Link>
+            {!isSignedIn && (
+              <div className="pt-2 border-t border-blue-500/30 mt-3">
+                <SignInButton mode="modal">
+                  <button className="w-full text-left px-3 py-2.5 text-sm text-white font-medium hover:bg-white/10 hover:text-primary rounded-lg transition-all">
+                    Sign In
+                  </button>
+                </SignInButton>
+                <SignUpButton mode="modal">
+                  <button className="w-full text-left px-3 py-2.5 text-sm bg-[#3d9cf5] hover:bg-[#2d7cc5] text-white font-medium rounded-lg transition-all mt-1">
+                    Sign Up
+                  </button>
+                </SignUpButton>
+              </div>
+            )}
+            {isSignedIn && (
+              <div className="pt-2 border-t border-blue-500/30 mt-3">
+                <Link href="/dashboard" className="block px-3 py-2.5 text-sm bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-lg transition-all">
+                  Dashboard
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -278,12 +300,41 @@ export default function Navbar() {
   );
 }
 
+function MobileDropdownSection({ title, items }: { title: string; items: { label: string; href: string }[] }) {
+  const [isOpen, setIsOpen] = useState(false);
+  
+  return (
+    <div className="border-b border-blue-500/20 pb-2 mb-2">
+      <button 
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center justify-between px-3 py-2.5 text-sm text-white font-medium hover:bg-white/10 hover:text-primary rounded-lg transition-all"
+      >
+        <span>{title}</span>
+        <ChevronDown size={16} className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+      </button>
+      {isOpen && (
+        <div className="pl-3 mt-1 space-y-1">
+          {items.map((item, index) => (
+            <Link
+              key={index}
+              href={item.href}
+              className="block px-3 py-2 text-xs text-gray-300 hover:text-primary hover:bg-white/5 rounded transition-all"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function DropdownMenu({ title, items }: { title: string; items: { label: string; href: string }[] }) {
   return (
     <div className="group relative">
-      <button className="flex items-center gap-1 text-sm font-semibold text-white hover:text-primary hover:bg-white/10 transition-all px-3 py-2.5 rounded-lg whitespace-nowrap">
+      <button className="flex items-center gap-1 text-xs xl:text-sm font-semibold text-white hover:text-primary hover:bg-white/10 transition-all px-2 xl:px-3 py-2.5 rounded-lg whitespace-nowrap">
         <span>{title}</span>
-        <ChevronDown size={16} className="transition-transform duration-300 group-hover:rotate-180" />
+        <ChevronDown size={14} className="xl:w-4 xl:h-4 transition-transform duration-300 group-hover:rotate-180" />
       </button>
       <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto invisible group-hover:visible transition-all duration-200 z-[60]">
         <div className="w-[600px] bg-gradient-to-br from-slate-900 to-blue-900 rounded-xl shadow-2xl border border-blue-500/30 p-6 backdrop-blur-md">
