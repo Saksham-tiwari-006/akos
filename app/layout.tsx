@@ -9,15 +9,13 @@ export const metadata: Metadata = {
   description: "Expert taxation, accounting, and business registration services in India",
 };
 
-export const dynamic = 'force-dynamic';
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider dynamic>
+    <ClerkProvider>
       <html lang="en">
         <body className="antialiased min-h-screen flex flex-col bg-white dark:bg-background-dark text-gray-900 dark:text-gray-100">
           <Navbar />
