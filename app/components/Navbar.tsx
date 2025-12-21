@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ChevronDown, Menu, X, User } from 'lucide-react';
 import { SignInButton, SignUpButton, UserButton, useUser } from '@clerk/nextjs';
 
@@ -13,16 +13,16 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 backdrop-blur-md shadow-lg border-b border-blue-500/30">
-      <div className="max-w-[1920px] mx-auto px-3 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-20">
+      <div className="max-w-[1920px] mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
+        <div className="flex items-center justify-between h-14 sm:h-16 lg:h-20">
           {/* Logo - Left */}
           <Link href="/" className="flex items-center gap-2 sm:gap-3 text-white hover:text-primary transition-colors flex-shrink-0 z-10">
-            <img src="/akos-logo.jpg" width={24} className="sm:w-[30px]" />
-            <h2 className="text-xl sm:text-2xl font-bold tracking-tight bg-gradient-to-r from-white to-blue-300 bg-clip-text text-transparent">AKOS</h2>
+            <img src="/akos-logo.jpg" width={20} className="w-5 sm:w-6 lg:w-8" alt="AKOS Logo" />
+            <h2 className="text-lg sm:text-xl lg:text-2xl font-bold tracking-tight bg-gradient-to-r from-white to-blue-300 bg-clip-text text-transparent">AKOS</h2>
           </Link>
 
           {/* Services - Center */}
-          <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1 flex-1 justify-center mx-2 xl:mx-4 overflow-hidden">
+          <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1 flex-1 justify-center mx-1 lg:mx-2 xl:mx-4">
             <DropdownMenu
               title="Registrations"
               items={[
@@ -184,16 +184,16 @@ export default function Navbar() {
           </nav>
 
           {/* About, Contact Us, Login & Sign Up - Right */}
-          <div className="hidden lg:flex items-center gap-2 flex-shrink-0">
+          <div className="hidden lg:flex items-center gap-1 lg:gap-2 flex-shrink-0">
             <Link
               href="/about"
-              className="text-xs xl:text-sm font-semibold text-white hover:text-primary hover:bg-white/10 transition-all px-2 xl:px-3 py-2.5 rounded-lg whitespace-nowrap"
+              className="text-xs lg:text-xs xl:text-sm font-semibold text-white hover:text-primary hover:bg-white/10 transition-all px-1.5 lg:px-2 xl:px-3 py-2 lg:py-2.5 rounded-lg whitespace-nowrap"
             >
               About Us
             </Link>
             <Link
               href="/contact"
-              className="text-xs xl:text-sm font-semibold text-white hover:text-primary hover:bg-white/10 transition-all px-2 xl:px-3 py-2.5 rounded-lg whitespace-nowrap"
+              className="text-xs lg:text-xs xl:text-sm font-semibold text-white hover:text-primary hover:bg-white/10 transition-all px-1.5 lg:px-2 xl:px-3 py-2 lg:py-2.5 rounded-lg whitespace-nowrap"
             >
               Contact Us
             </Link>
@@ -222,12 +222,12 @@ export default function Navbar() {
             ) : (
               <>
                 <SignInButton mode="modal">
-                  <button className="text-xs xl:text-sm font-semibold text-white hover:text-primary hover:bg-white/10 transition-all px-2 xl:px-3 py-2.5 rounded-lg whitespace-nowrap">
+                  <button className="text-xs lg:text-xs xl:text-sm font-semibold text-white hover:text-primary hover:bg-white/10 transition-all px-1.5 lg:px-2 xl:px-3 py-2 lg:py-2.5 rounded-lg whitespace-nowrap">
                     Sign In
                   </button>
                 </SignInButton>
                 <SignUpButton mode="modal">
-                  <button className="text-xs xl:text-sm font-semibold bg-[#3d9cf5] hover:bg-[#2d7cc5] text-white transition-all px-3 xl:px-4 py-2.5 rounded-lg whitespace-nowrap">
+                  <button className="text-xs lg:text-xs xl:text-sm font-semibold bg-[#3d9cf5] hover:bg-[#2d7cc5] text-white transition-all px-2 lg:px-3 xl:px-4 py-2 lg:py-2.5 rounded-lg whitespace-nowrap">
                     Sign Up
                   </button>
                 </SignUpButton>
@@ -238,17 +238,17 @@ export default function Navbar() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden text-white hover:text-primary transition-colors"
+            className="lg:hidden text-white hover:text-primary transition-colors p-1 touch-manipulation"
           >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileMenuOpen ? <X size={20} className="sm:w-6 sm:h-6" /> : <Menu size={20} className="sm:w-6 sm:h-6" />}
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-gradient-to-b from-slate-900 to-blue-900 border-t border-blue-500/30 shadow-xl max-h-[80vh] overflow-y-auto">
-          <div className="px-2 py-4 space-y-1">
+        <div className="lg:hidden bg-gradient-to-b from-slate-900 to-blue-900 border-t border-blue-500/30 shadow-xl max-h-[85vh] overflow-y-auto scrollbar-thin">
+          <div className="px-3 sm:px-4 py-4 space-y-2">
             <MobileDropdownSection title="Registrations" items={[
               { label: 'Private Limited Company', href: '/registrations/company' },
               { label: 'LLP Registration', href: '/registrations/llp' },
@@ -304,21 +304,22 @@ function MobileDropdownSection({ title, items }: { title: string; items: { label
   const [isOpen, setIsOpen] = useState(false);
   
   return (
-    <div className="border-b border-blue-500/20 pb-2 mb-2">
+    <div className="border-b border-blue-500/20 pb-3 mb-3">
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between px-3 py-2.5 text-sm text-white font-medium hover:bg-white/10 hover:text-primary rounded-lg transition-all"
+        className="w-full flex items-center justify-between px-3 py-3 sm:py-2.5 text-sm sm:text-base text-white font-medium hover:bg-white/10 hover:text-primary rounded-lg transition-all touch-manipulation"
       >
         <span>{title}</span>
         <ChevronDown size={16} className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
       {isOpen && (
-        <div className="pl-3 mt-1 space-y-1">
+        <div className="pl-2 mt-2 space-y-1">
           {items.map((item, index) => (
             <Link
               key={index}
               href={item.href}
-              className="block px-3 py-2 text-xs text-gray-300 hover:text-primary hover:bg-white/5 rounded transition-all"
+              className="block px-3 py-2.5 sm:py-2 text-sm text-gray-300 hover:text-primary hover:bg-white/5 rounded-lg transition-all touch-manipulation"
+              onClick={() => setIsOpen(false)}
             >
               {item.label}
             </Link>
@@ -330,27 +331,96 @@ function MobileDropdownSection({ title, items }: { title: string; items: { label
 }
 
 function DropdownMenu({ title, items }: { title: string; items: { label: string; href: string }[] }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
+
+  // Clean up timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [timeoutId]);
+
+  const handleMouseEnter = () => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      setTimeoutId(null);
+    }
+    setIsOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    const id = setTimeout(() => {
+      setIsOpen(false);
+    }, 150);
+    setTimeoutId(id);
+  };
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <div className="group relative">
-      <button className="flex items-center gap-1 text-xs xl:text-sm font-semibold text-white hover:text-primary hover:bg-white/10 transition-all px-2 xl:px-3 py-2.5 rounded-lg whitespace-nowrap">
+    <div 
+      ref={dropdownRef}
+      className="relative"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <button 
+        onClick={handleClick}
+        className="flex items-center gap-1 text-xs lg:text-xs xl:text-sm font-semibold text-white hover:text-primary hover:bg-white/10 transition-all px-1.5 lg:px-2 xl:px-3 py-2 lg:py-2.5 rounded-lg whitespace-nowrap touch-manipulation"
+      >
         <span>{title}</span>
-        <ChevronDown size={14} className="xl:w-4 xl:h-4 transition-transform duration-300 group-hover:rotate-180" />
+        <ChevronDown 
+          size={12} 
+          className={`w-3 h-3 lg:w-3.5 lg:h-3.5 xl:w-4 xl:h-4 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} 
+        />
       </button>
-      <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto invisible group-hover:visible transition-all duration-200 z-[60]">
-        <div className="w-[600px] bg-gradient-to-br from-slate-900 to-blue-900 rounded-xl shadow-2xl border border-blue-500/30 p-6 backdrop-blur-md">
-          <div className="grid grid-cols-2 gap-x-4 gap-y-2 max-h-[70vh] overflow-y-auto">
-            {items.map((item, index) => (
-              <Link
-                key={index}
-                href={item.href}
-                className="block text-sm text-gray-300 hover:text-primary hover:bg-white/10 transition-all p-3 rounded-lg font-medium"
-              >
-                {item.label}
-              </Link>
-            ))}
+      
+      {isOpen && (
+        <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-[999] animate-in slide-in-from-top-2 duration-200">
+          <div 
+            className="w-[95vw] max-w-[400px] sm:max-w-[500px] lg:w-[450px] xl:w-[550px] 2xl:w-[600px] bg-gradient-to-br from-slate-900/98 to-blue-900/98 rounded-xl shadow-2xl border border-blue-500/30 p-3 sm:p-4 lg:p-6 backdrop-blur-md"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2 sm:gap-x-4 gap-y-1 sm:gap-y-2 max-h-[50vh] sm:max-h-[60vh] lg:max-h-[70vh] overflow-y-auto scrollbar-thin">
+              {items.map((item, index) => (
+                <Link
+                  key={index}
+                  href={item.href}
+                  className="block text-xs sm:text-sm text-gray-300 hover:text-primary hover:bg-white/10 transition-all p-2 sm:p-2.5 lg:p-3 rounded-lg font-medium touch-manipulation"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
