@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/akos';
+const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
-  throw new Error('Please define the MONGODB_URI environment variable');
+  console.warn('⚠️ MONGODB_URI not defined. Database features will be disabled.');
 }
 
 interface MongooseCache {
@@ -22,6 +22,11 @@ if (!global.mongoose) {
 }
 
 export async function connectDB() {
+  if (!MONGODB_URI) {
+    console.warn('⚠️ Skipping database connection - MONGODB_URI not configured');
+    return null;
+  }
+
   if (cached.conn) {
     return cached.conn;
   }
@@ -45,7 +50,11 @@ export async function connectDB() {
   } catch (e) {
     cached.promise = null;
     console.error('❌ MongoDB Connection Error:', e);
-    throw e;
+    // Don't throw in production, just log the error
+    if (process.env.NODE_ENV === 'development') {
+      throw e;
+    }
+    return null;
   }
 
   return cached.conn;
