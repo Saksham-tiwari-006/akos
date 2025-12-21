@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  turbopack: {},
   experimental: {
     serverActions: {
       bodySizeLimit: '10mb',
